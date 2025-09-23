@@ -249,13 +249,13 @@ export default function Navbar() {
               >
                 Try tools
               </a>
-              <a
+              {/* <a
                 href="/contact"
                 onClick={() => setOpen(false)}
                 className="mobile-action"
               >
                 Contact
-              </a>
+              </a> */}
             </div>
           </div>
         </aside>

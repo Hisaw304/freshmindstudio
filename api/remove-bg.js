@@ -53,15 +53,24 @@ module.exports = async (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json({ success: true, imageBase64: dataUrl });
   } catch (err) {
-    console.error("remove-bg error:", err.response?.data || err.message || err);
+    console.error("remove-bg error details:", {
+      status: err.response?.status,
+      headers: err.response?.headers,
+      data: err.response?.data,
+      message: err.message,
+    });
 
-    // Pass through the real status code if possible
     const status = err.response?.status || 500;
+    const errorMsg =
+      err.response?.data?.errors?.[0]?.title ||
+      err.response?.data?.title ||
+      err.message ||
+      "Unknown error from remove.bg";
 
     res.status(status).json({
       success: false,
-      error:
-        err.response?.data || err.message || "Unknown error from remove.bg",
+      error: errorMsg,
+      raw: err.response?.data, // 👈 optional: helps debugging
     });
   }
 };

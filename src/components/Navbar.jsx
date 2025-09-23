@@ -93,14 +93,14 @@ export default function Navbar() {
             className="flex items-center gap-3 nav-brand"
             aria-label="FreshMind Studio home"
           >
-            <div className="nav-logo-wrap" aria-hidden>
+            {/* <div className="nav-logo-wrap" aria-hidden>
               <img
                 src="/assets/logo.svg"
                 alt="FreshMind Studio"
                 className="nav-logo"
               />
               <span className="nav-logo-dot" />
-            </div>
+            </div> */}
 
             <div className=" sm:flex flex-col nav-logo-title">
               <span className="font-extrabold tracking-tight text-sm">

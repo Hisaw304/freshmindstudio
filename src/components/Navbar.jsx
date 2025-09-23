@@ -90,7 +90,7 @@ export default function Navbar() {
           {/* Brand */}
           <a
             href="/"
-            className="flex items-center gap-3 nav-brand"
+            className="sm:flex items-center gap-3 nav-brand"
             aria-label="FreshMind Studio home"
           >
             {/* <div className="nav-logo-wrap" aria-hidden>
@@ -101,14 +101,13 @@ export default function Navbar() {
               />
               <span className="nav-logo-dot" />
             </div> */}
-
-            <div className=" sm:flex flex-col nav-logo-title">
-              <span className="font-extrabold tracking-tight text-sm">
-                FreshMind Studio
+            <div className="nav-logo-title">
+              <span>
+                <span className="fresh">Fresh</span>{" "}
+                <span className="mind">Mind</span>{" "}
+                <span className="studio">Studio</span>
               </span>
-              <span className="text-xs text-muted">
-                Image tools — clean & fast
-              </span>
+              <span className="subtitle">Image tools — clean & fast</span>
             </div>
           </a>
 

@@ -67,6 +67,38 @@
 .nav-brand:hover .nav-logo-dot {
   transform: scale(1.12) translateY(-1px);
 }
+.nav-logo-title {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  line-height: 1.1;
+}
+
+.nav-logo-title span {
+  display: inline; /* force each word onto its own line */
+  font-weight: 800;
+  font-size: 0.9rem; /* slightly larger than subtitle */
+}
+
+/* Colors */
+.nav-logo-title .fresh {
+  color: var(--brand-yellow);
+}
+
+.nav-logo-title .mind {
+  color: var(--accent-blue);
+}
+
+.nav-logo-title .studio {
+  color: var(--text-strong);
+}
+
+/* Subtitle */
+.nav-logo-title .subtitle {
+  font-size: 0.75rem; /* smaller */
+  font-weight: 400;
+  color: var(--muted-color);
+  margin-top: 0.2rem;
+}
 
 /* Desktop nav: animated gradient underline and subtle hover lift */
 .nav-link {

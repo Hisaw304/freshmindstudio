@@ -1,9 +1,8 @@
-/* api/remove-bg.js */
+// api/remove-bg.js (ESM)
+import axios from "axios";
+import FormData from "form-data";
 
-const axios = require("axios");
-const FormData = require("form-data");
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
@@ -16,22 +15,25 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Parse JSON body (in case raw string is passed)
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-    const { imageBase64 } = body;
+    let body = {};
+    try {
+      body =
+        typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
+    } catch (e) {
+      return res.status(400).json({ error: "Invalid JSON body" });
+    }
 
+    const { imageBase64 } = body;
     if (!imageBase64) {
       res.status(400).json({ error: "No imageBase64 field provided" });
       return;
     }
 
-    // remove data prefix if exists
     const b64 = imageBase64.replace(/^data:image\/\w+;base64,/, "");
 
-    // prepare form
     const form = new FormData();
     form.append("image_file_b64", b64);
-    form.append("size", "preview"); // 🔹 Always use free preview credits
+    form.append("size", "preview");
 
     const response = await axios.post(
       "https://api.remove.bg/v1.0/removebg",
@@ -41,7 +43,7 @@ module.exports = async (req, res) => {
           ...form.getHeaders(),
           "X-Api-Key": apiKey,
         },
-        responseType: "arraybuffer", // binary response
+        responseType: "arraybuffer",
       }
     );
 
@@ -69,7 +71,7 @@ module.exports = async (req, res) => {
     res.status(status).json({
       success: false,
       error: errorMsg,
-      raw: err.response?.data, // 👈 optional: helps debugging
+      raw: err.response?.data,
     });
   }
-};
+}

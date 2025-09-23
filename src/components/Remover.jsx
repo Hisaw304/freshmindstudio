@@ -268,7 +268,7 @@ export default function RemoverModern() {
       <div aria-live="polite" ref={liveRegionRef} className="sr-only" />
 
       <header className="mb-6">
-        <h1 className="text-2xl font-extrabold text-[var(--text)]">
+        <h1 id="remover" className="text-2xl font-extrabold text-[var(--text)]">
           Background Remover
         </h1>
         <p className="text-sm text-[var(--muted)] mt-2 max-w-[70ch]">
@@ -481,7 +481,7 @@ export default function RemoverModern() {
           </div>
 
           {/* Result area (wide) */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 rm-card">
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs text-[var(--muted)]">Result</div>
               <div className="flex items-center gap-2">

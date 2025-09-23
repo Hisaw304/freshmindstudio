@@ -646,6 +646,81 @@ body .rm-card:focus-within {
   border: 2px solid var(--brand-yellow);
 }
 
+.cm-pill {
+  flex: 1;
+  padding: 0.56rem 0.9rem;
+  border-radius: var(--btn-radius);
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  background: var(--card-bg);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 220ms ease, background 160ms ease,
+    border-color 160ms ease;
+
+  /* 🔹 Static blue glow */
+  box-shadow: 0 0 12px rgba(var(--accent-blue-rgb) / 0.5),
+    0 0 24px rgba(var(--accent-blue-rgb) / 0.25);
+}
+
+.cm-pill:hover {
+  transform: translateY(-2px);
+
+  /* 🟡 Hover yellow glow */
+  box-shadow: 0 0 14px rgba(var(--brand-yellow-rgb) / 0.7),
+    0 0 28px rgba(var(--brand-yellow-rgb) / 0.4);
+}
+
+.cm-pill:active {
+  transform: translateY(0);
+}
+
+.cm-pill:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(var(--focus-rgb) / 0.25),
+    0 0 18px rgba(var(--accent-blue-rgb) / 0.6);
+  border-color: rgba(var(--focus-rgb) / 0.6);
+}
+
+/* ---- Small (yellow theme) ---- */
+.cm-pill--small {
+  background: rgba(var(--brand-yellow-rgb) / 0.08);
+  border-color: rgba(var(--brand-yellow-rgb) / 0.25);
+  color: var(--text-strong);
+}
+.cm-pill--small.cm-pill--active {
+  background: var(--brand-yellow);
+  border-color: rgba(var(--brand-yellow-rgb) / 1);
+  color: var(--text-strong);
+}
+
+/* ---- Medium (blue theme) ---- */
+.cm-pill--medium {
+  background: rgba(var(--accent-blue-rgb) / 0.08);
+  border-color: rgba(var(--accent-blue-rgb) / 0.25);
+  color: var(--accent-blue);
+}
+.cm-pill--medium.cm-pill--active {
+  background: var(--accent-blue);
+  border-color: rgba(var(--accent-blue-rgb) / 1);
+  color: #fff;
+}
+
+/* ---- Large (black theme) ---- */
+.cm-pill--large {
+  background: rgba(0 0 0 / 0.05);
+  border-color: rgba(0 0 0 / 0.15);
+  color: var(--text);
+}
+.cm-pill--large.cm-pill--active {
+  background: var(--text-strong);
+  border-color: var(--text-strong);
+  color: #fff;
+}
+
 /* ---------------------------
    Badges & chips — yellow core with faint blue aura
    --------------------------- */

@@ -162,7 +162,7 @@ export default function CompressorModern() {
     try {
       sessionStorage.setItem("freshmind:selectedImage", durl);
       // navigate to remover
-      if (typeof window !== "undefined") window.location.href = "/remover";
+      if (typeof window !== "undefined") window.location.href = "#remover";
     } catch (err) {
       setError("Failed to use image in remover.");
     }

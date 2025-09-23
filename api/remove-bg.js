@@ -1,4 +1,6 @@
 /* api/remove-bg.js */
+
+require("dotenv").config(); // 👈 this line loads .env when running locally
 const axios = require("axios");
 const FormData = require("form-data");
 
@@ -15,8 +17,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Expect JSON body { imageBase64: 'data:image/png;base64,...' }
-    const { imageBase64 } = req.body;
+    // Parse JSON body (in case raw string is passed)
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const { imageBase64 } = body;
+
     if (!imageBase64) {
       res.status(400).json({ error: "No imageBase64 field provided" });
       return;
@@ -28,8 +32,7 @@ module.exports = async (req, res) => {
     // prepare form
     const form = new FormData();
     form.append("image_file_b64", b64);
-    // optional params: size, format, bg_color etc.
-    // form.append('size', 'auto');
+    form.append("size", "preview"); // 🔹 Always use free preview credits
 
     const response = await axios.post(
       "https://api.remove.bg/v1.0/removebg",
@@ -39,7 +42,7 @@ module.exports = async (req, res) => {
           ...form.getHeaders(),
           "X-Api-Key": apiKey,
         },
-        responseType: "arraybuffer", // we want binary
+        responseType: "arraybuffer", // binary response
       }
     );
 
@@ -51,9 +54,14 @@ module.exports = async (req, res) => {
     res.status(200).json({ success: true, imageBase64: dataUrl });
   } catch (err) {
     console.error("remove-bg error:", err.response?.data || err.message || err);
+
+    // Pass through the real status code if possible
     const status = err.response?.status || 500;
-    const message =
-      err.response?.data?.errors || err.message || "Unknown error";
-    res.status(status).json({ error: message });
+
+    res.status(status).json({
+      success: false,
+      error:
+        err.response?.data || err.message || "Unknown error from remove.bg",
+    });
   }
 };

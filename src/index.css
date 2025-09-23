@@ -9,4 +9,7 @@ html {
   scroll-behavior: smooth;
 }
 
-@import "tailwindcss";
+html,
+body {
+  overflow-x: hidden;
+}

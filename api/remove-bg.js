@@ -1,6 +1,5 @@
 /* api/remove-bg.js */
 
-require("dotenv").config(); // 👈 this line loads .env when running locally
 const axios = require("axios");
 const FormData = require("form-data");
 

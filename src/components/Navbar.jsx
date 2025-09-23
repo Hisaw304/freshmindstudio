@@ -102,7 +102,7 @@ export default function Navbar() {
               <span className="nav-logo-dot" />
             </div>
 
-            <div className="hidden sm:flex flex-col nav-logo-title">
+            <div className=" sm:flex flex-col nav-logo-title">
               <span className="font-extrabold tracking-tight text-sm">
                 FreshMind Studio
               </span>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { fileToDataUrl } from "../../utils/toBase64";
+import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 /* ---------- config ---------- */
 const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024; // 4 MB
@@ -243,7 +244,7 @@ export default function Contact({
           {/* FORM */}
           <section
             aria-labelledby="contact-title"
-            className="cm-cards cm-forms"
+            className="cm-cardss cm-forms"
           >
             <div className="cm-heds">
               <div className="cm-eyebrows">
@@ -251,7 +252,7 @@ export default function Contact({
                 Get in touch
               </div>
 
-              <h1 id="contact-titles" className="cm-titles ">
+              <h1 id="contact-title" className="cm-titles ">
                 Start your project
               </h1>
               <p className="cm-subs">
@@ -340,7 +341,7 @@ export default function Contact({
               <label className="cm-fields">
                 <span className="cm-labels">Budget (optional)</span>
                 <select
-                  className="cm-input"
+                  className="cm-inputs"
                   value={form.budget}
                   onChange={(e) => setField("budget", e.target.value)}
                 >
@@ -516,7 +517,7 @@ export default function Contact({
 
           {/* DETAILS */}
           <aside className="cm-sides">
-            <div className="cm-cards cm-side-cards">
+            <div className="cm-cardss cm-side-cards">
               <h3 className="cm-side-titles">Contact details</h3>
 
               <ul className="cm-info-lists">
@@ -540,14 +541,29 @@ export default function Contact({
               <p className="cm-side-bios">{ownerBio}</p>
 
               <div className="cm-socials">
-                <a href="#" aria-label="Twitter">
-                  Twitter
+                <a
+                  href="https://twitter.com/yourhandle"
+                  aria-label="Twitter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaTwitter />
                 </a>
-                <a href="#" aria-label="LinkedIn">
-                  LinkedIn
+                <a
+                  href="https://linkedin.com/in/yourhandle"
+                  aria-label="LinkedIn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaLinkedin />
                 </a>
-                <a href="#" aria-label="GitHub">
-                  GitHub
+                <a
+                  href="https://github.com/yourhandle"
+                  aria-label="GitHub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaGithub />
                 </a>
               </div>
             </div>

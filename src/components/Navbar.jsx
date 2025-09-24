@@ -137,7 +137,7 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             ref={toggleRef}
-            className="md:hidden nav-toggle"
+            className="lg:hidden nav-toggle"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-menu"

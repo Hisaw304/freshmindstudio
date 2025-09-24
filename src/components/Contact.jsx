@@ -231,6 +231,31 @@ export default function Contact({
       setUploadPercent(0);
     }
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // 1. Grab inputs from state
+    const formData = { name, email, company, service, budget, message };
+
+    // 2. Handle attachments (convert File -> base64)
+    const attachments = [];
+    for (const file of selectedFiles) {
+      const base64 = await toBase64(file);
+      attachments.push({
+        content: base64.split(",")[1], // remove "data:...base64,"
+        filename: file.name,
+        type: file.type,
+        disposition: "attachment",
+      });
+    }
+
+    // 3. Send to API
+    await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...formData, attachments }),
+    });
+  };
 
   return (
     <main className="cm-roots">

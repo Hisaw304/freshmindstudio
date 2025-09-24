@@ -19,7 +19,10 @@ export default function ContactPage() {
         aria-hidden={false}
       >
         <div className="max-w-[1100px] mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-3 bg-gray-50 rounded-full px-3 py-1 text-xs font-medium text-gray-700 mb-4 mx-auto">
+          <div
+            id="contact"
+            className="inline-flex items-center gap-3 bg-gray-50 rounded-full px-3 py-1 text-xs font-medium text-gray-700 mb-4 mx-auto"
+          >
             <span
               className="inline-block w-2 h-2 rounded-full"
               style={{ background: "var(--accent)" }}
@@ -42,7 +45,7 @@ export default function ContactPage() {
 
       {/* Main contact section (your component) */}
       <main className="flex-1">
-        <div className="max-w-[1100px] mx-auto px-4 -mt-10">
+        <div className=" mx-auto ">
           {/* The contact component should include the form, validation, success states, etc. */}
           <Contact />
         </div>
@@ -63,7 +66,7 @@ export default function ContactPage() {
 
             <div className="mt-6 flex items-center justify-center gap-3">
               <a
-                href="info@fishlymind@gmail.com"
+                href="#contact"
                 className="btn-primary btn"
                 aria-label="Start your project by email"
               >

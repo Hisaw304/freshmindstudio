@@ -476,7 +476,7 @@ body .team-card {
   position: relative;
   overflow: visible; /* important so glow isn't clipped */
   background: var(--card-bg);
-  border: 1px solid var(--brand-yellow); /* yellow border on static */
+  border: 1px solid var(--accent-blue); /* yellow border on static */
   border-radius: var(--card-radius);
   padding: 1rem;
   transition: transform 220ms ease, box-shadow 220ms ease;

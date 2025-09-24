@@ -1,10 +1,11 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom"; // use these instead of BrowserRouter
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ContactPage from "./pages/ContactPage";
+import CryptoTipModal from "./components/CryptoTipModal";
 
 const App = () => {
   return (
@@ -15,10 +16,15 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactPage />} />
-          {/* Add more routes here if needed */}
         </Routes>
       </main>
+
       <Footer />
+
+      {/* Floating Global Tip Modal */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <CryptoTipModal />
+      </div>
     </div>
   );
 };

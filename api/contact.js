@@ -12,8 +12,8 @@ export default async function handler(req, res) {
       req.body;
 
     const msg = {
-      to: "fishlymind@email.com", // your inbox
-      from: "no-reply@freshmindstudio.vercel.app", // verified sender in SendGrid
+      to: "fishlymind@gmail.com", // your inbox
+      from: "fishlymind@gmail.com", // verified sender in SendGrid
       subject: `New Contact Form Submission from ${name || "Unknown"}`,
       html: `
         <p><strong>Name:</strong> ${name || "-"}</p>

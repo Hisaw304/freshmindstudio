@@ -7,17 +7,17 @@ const WALLETS = {
   BTC: {
     label: "Bitcoin",
     icon: "₿",
-    address: "1FfmbHfnpaZjKFvyi1okTjJJusN455paPH",
+    address: "35toacsAQ9mz29Z8sf9tcXN1sXas5YWuXe",
   },
   ETH: {
     label: "Ethereum",
     icon: "Ξ",
-    address: "0x32Be343B94f860124dC4fEe278FDCBD38C102D88",
+    address: "0x7cc3677377a69b85d96e05b98a04639be73c3843",
   },
   USDT: {
     label: "Tether",
     icon: "🪙",
-    address: "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7",
+    address: "TBNm6a2p98X4cagNSPN8brXmYz8NvVuVJU",
   },
 };
 

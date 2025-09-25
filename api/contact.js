@@ -11,9 +11,23 @@ export default async function handler(req, res) {
     const { name, email, company, service, budget, message, attachments } =
       req.body;
 
+    const formattedAttachments = (attachments || []).map((file) => {
+      // file.content is expected to be a Data URL: "data:image/png;base64,AAAA..."
+      const base64Content = file.content.includes("base64,")
+        ? file.content.split("base64,")[1]
+        : file.content;
+
+      return {
+        content: base64Content,
+        filename: file.filename || "attachment",
+        type: file.type || "application/octet-stream",
+        disposition: "attachment",
+      };
+    });
+
     const msg = {
-      to: "fishlymind@gmail.com", // your inbox
-      from: "fishlymind@gmail.com", // verified sender in SendGrid
+      to: "fishlymind@gmail.com", // inbox
+      from: "fishlymind@gmail.com", // must be a verified sender in SendGrid
       subject: `New Contact Form Submission from ${name || "Unknown"}`,
       html: `
         <p><strong>Name:</strong> ${name || "-"}</p>
@@ -23,7 +37,7 @@ export default async function handler(req, res) {
         <p><strong>Budget:</strong> ${budget || "-"}</p>
         <p><strong>Message:</strong><br/>${message || "-"}</p>
       `,
-      attachments: attachments || [], // must be base64 encoded
+      attachments: formattedAttachments,
     };
 
     await sgMail.send(msg);

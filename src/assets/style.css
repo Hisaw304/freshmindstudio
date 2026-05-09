@@ -33,9 +33,7 @@ body {
 .fm-st-navbar-container {
   max-width: 1300px;
   margin: auto;
-
   padding: 18px 24px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -853,7 +851,7 @@ body {
 
 .fm-st-compressor {
   max-width: 1300px;
-  margin: auto;
+  margin: 0 auto;
   padding: 120px 20px;
 }
 
@@ -1266,13 +1264,13 @@ body {
 }
 
 /* ========================= */
-/* ROOT */
+/* REMOVE BACKGROUD */
 /* ========================= */
 
 .fm-rm {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 100px 20px;
+  padding: 120px 20px;
 }
 
 /* ========================= */

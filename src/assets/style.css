@@ -9,7 +9,6 @@
   --fm-st-border: rgba(53, 56, 57, 0.12);
   --fm-st-success: #22c55e;
 }
-
 body {
   font-family: "Poppins", sans-serif;
   background-color: var(--fm-body);
@@ -893,6 +892,7 @@ body {
   border-radius: 32px;
   padding: 28px;
   transition: 0.3s ease;
+  overflow: hidden;
 }
 
 .fm-st-compressor-card-active {
@@ -918,6 +918,7 @@ body {
   transition: 0.3s ease;
   overflow: hidden;
   position: relative;
+  box-sizing: border-box;
 }
 
 .fm-st-dropzone-active {

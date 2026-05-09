@@ -1124,6 +1124,9 @@ body {
 /* ========================= */
 
 @media (max-width: 768px) {
+  .fm-st-compressor-layout {
+    grid-template-columns: 1fr;
+  }
   .fm-st-dropzone {
     min-height: 380px;
   }
@@ -1654,6 +1657,9 @@ body {
 /* ========================= */
 
 @media (max-width: 768px) {
+  .fm-rm-layout {
+    grid-template-columns: 1fr;
+  }
   .fm-rm-card {
     padding: 20px;
   }

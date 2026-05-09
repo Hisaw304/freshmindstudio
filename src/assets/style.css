@@ -893,13 +893,9 @@ body {
 
 .fm-st-compressor-card {
   background: var(--fm-st-surface);
-
   border: 1px solid var(--fm-st-border);
-
   border-radius: 32px;
-
   padding: 28px;
-
   transition: 0.3s ease;
 }
 
@@ -1168,13 +1164,9 @@ body {
 .fm-st-how-card {
   position: sticky;
   top: 120px;
-
   background: var(--fm-st-surface);
-
   border: 1px solid var(--fm-st-border);
-
   border-radius: 32px;
-
   padding: 32px;
 }
 
@@ -1182,17 +1174,11 @@ body {
 
 .fm-st-how-badge {
   display: inline-flex;
-
   padding: 10px 16px;
-
   border-radius: 999px;
-
   background: rgba(255, 215, 0, 0.12);
-
   border: 1px solid rgba(255, 215, 0, 0.18);
-
   color: #b58900;
-
   font-size: 13px;
   font-weight: 700;
 }

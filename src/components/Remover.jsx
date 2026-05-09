@@ -39,6 +39,10 @@ export default function RemoverModern() {
   const [compressedDataUrl, setCompressedDataUrl] = useState(null);
 
   const [resultDataUrl, setResultDataUrl] = useState(null);
+  const [bgMode, setBgMode] = useState("transparent");
+  const [bgColor, setBgColor] = useState("#ffffff");
+  const [bgImage, setBgImage] = useState(null);
+  const [finalImage, setFinalImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [compressBeforeSend, setCompressBeforeSend] = useState(true);
   const [error, setError] = useState(null);
@@ -53,7 +57,7 @@ export default function RemoverModern() {
 
   useEffect(() => {
     mountedRef.current = true;
-    const pre = sessionStorage.getItem("freshmind:selectedImage");
+    const pre = sessionStorage.getItem("focusstudio:selectedImage");
     if (pre) {
       setInputDataUrl(pre);
     }
@@ -65,6 +69,11 @@ export default function RemoverModern() {
       }
     };
   }, []);
+  useEffect(() => {
+    if (resultDataUrl) {
+      generateFinalImage();
+    }
+  }, [bgMode, bgColor, bgImage, resultDataUrl]);
 
   /* FILE HANDLING */
   const handleFiles = async (files) => {
@@ -237,12 +246,79 @@ export default function RemoverModern() {
       abortRef.current = null;
     }
   };
+  /* generate final composited image */
 
+  const generateFinalImage = async (
+    mode = bgMode,
+    color = bgColor,
+    image = bgImage
+  ) => {
+    if (!resultDataUrl) return;
+
+    try {
+      const fg = new Image();
+      fg.src = resultDataUrl;
+
+      await new Promise((resolve) => {
+        fg.onload = resolve;
+      });
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = fg.width;
+      canvas.height = fg.height;
+
+      /* transparent = nothing */
+
+      if (mode === "color") {
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      if (mode === "image" && image) {
+        const bg = new Image();
+        bg.src = image;
+
+        await new Promise((resolve) => {
+          bg.onload = resolve;
+        });
+
+        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+      }
+
+      /* foreground */
+
+      ctx.drawImage(fg, 0, 0);
+
+      const merged = canvas.toDataURL("image/png");
+
+      setFinalImage(merged);
+    } catch (err) {
+      console.error(err);
+      setError("Failed generating final image.");
+    }
+  };
+  const handleBackgroundUpload = async (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    try {
+      const durl = await fileToDataUrl(file);
+
+      setBgImage(durl);
+
+      setBgMode("image");
+    } catch (err) {
+      setError("Failed loading background image.");
+    }
+  };
   const handleDownloadResult = () => {
     if (!resultDataUrl) return;
     const a = document.createElement("a");
     a.href = resultDataUrl;
-    a.download = "freshmind-removed.png";
+    a.download = "focusstudio-removed.png";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -255,7 +331,7 @@ export default function RemoverModern() {
     setCompressedDataUrl(null);
     setResultDataUrl(null);
     setError(null);
-    sessionStorage.removeItem("freshmind:selectedImage");
+    sessionStorage.removeItem("focusstudio:selectedImage");
   };
 
   const compressedRatio =
@@ -264,266 +340,322 @@ export default function RemoverModern() {
       : null;
 
   return (
-    <section className="rm-root max-w-6xl mx-auto px-6 py-10">
+    <section className="fm-rm">
       <div aria-live="polite" ref={liveRegionRef} className="sr-only" />
 
-      <header className="mb-6">
-        <h1 id="remover" className="text-2xl font-extrabold text-[var(--text)]">
-          Background Remover
-        </h1>
-        <p className="text-sm text-[var(--muted)] mt-2 max-w-[70ch]">
-          Upload or paste an image and remove its background. We proxy calls to
-          remove.bg (server-side).
+      {/* HEADER */}
+      <div className="fm-rm-header">
+        <h1>Background Remover</h1>
+
+        <p>
+          Upload an image and instantly remove the background with AI-powered
+          processing. Clean transparent PNG exports ready for products,
+          branding, thumbnails, social media, and more.
         </p>
-      </header>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Controls */}
-        <div className="flex flex-col gap-4">
+      </div>
+      <div className="fm-rm-layout">
+        {/* SINGLE CARD */}
+        <div
+          className={`fm-rm-card ${dragActive ? "dragging" : ""}`}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+        >
+          {/* TOP AREA */}
           <div
-            className={`rm-card rounded-2xl p-3 transition ${
-              dragActive ? "rm-card--drag" : ""
-            }`}
-            onDragOver={onDragOver}
-            onDragLeave={onDragLeave}
-            onDrop={onDrop}
-            role="region"
-            aria-label="Upload image"
+            className={`fm-rm-dropzone ${dragActive ? "active" : ""}`}
+            role="button"
+            tabIndex={0}
+            onClick={() => inputRef.current?.click()}
+            onKeyDown={(e) =>
+              (e.key === "Enter" || e.key === " ") && inputRef.current?.click()
+            }
           >
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => inputRef.current?.click()}
-              onKeyDown={(e) =>
-                (e.key === "Enter" || e.key === " ") &&
-                inputRef.current?.click()
-              }
-              className={`rm-dropzone flex flex-col items-center justify-center gap-3 h-40 rounded-lg cursor-pointer ${
-                dragActive ? "rm-dropzone--active" : ""
-              }`}
-            >
-              <input
-                ref={inputRef}
-                type="file"
-                accept="image/*"
-                className="sr-only"
-                onChange={(e) => handleFiles(e.target.files)}
-              />
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              onChange={(e) => handleFiles(e.target.files)}
+            />
 
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 24 24"
-                className="rm-icon"
-                aria-hidden
-                focusable="false"
-              >
-                <path
-                  d="M12 3v10"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M20.5 16.5V7.5A2.5 2.5 0 0018 5h-3"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M3.5 13.5v3A2.5 2.5 0 006 19h12"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M8 12l4-4 4 4"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            {!inputDataUrl && !resultDataUrl ? (
+              <div className="fm-rm-empty">
+                <svg
+                  width="42"
+                  height="42"
+                  viewBox="0 0 24 24"
+                  className="fm-rm-icon"
+                >
+                  <path
+                    d="M12 3v10"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M8 12l4-4 4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M5 20h14"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                  />
+                </svg>
 
-              <div className="text-sm font-semibold text-[var(--text)]">
-                Drop or choose an image
+                <h3>Drop your image here</h3>
+
+                <p>
+                  JPG, PNG, or WebP supported. AI will automatically remove the
+                  background and return a transparent PNG.
+                </p>
+
+                <button type="button" className="fm-rm-upload-btn">
+                  Choose Image
+                </button>
               </div>
-              <div className="text-xs text-[var(--muted)]">
-                Transparent PNG output • remove.bg limits apply
-              </div>
+            ) : (
+              <div className="fm-rm-preview-wrap">
+                {/* BEFORE */}
+                {!loading && !resultDataUrl && (
+                  <img
+                    src={inputDataUrl}
+                    alt="Uploaded preview"
+                    className="fm-rm-preview"
+                  />
+                )}
 
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  inputRef.current?.click();
-                }}
-                className="rm-btn rm-btn-pill mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium"
-              >
-                Select file
-              </button>
-            </div>
+                {/* LOADING EFFECT */}
+                {loading && (
+                  <div className="fm-rm-processing">
+                    <div className="fm-rm-image-stack">
+                      <img
+                        src={inputDataUrl}
+                        alt="Processing"
+                        className="fm-rm-preview"
+                      />
+
+                      {/* REMOVE.BG STYLE WIPE */}
+                      <div className="fm-rm-wipe">
+                        <img
+                          src={inputDataUrl}
+                          alt="Removing background"
+                          className="fm-rm-preview"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="fm-rm-loader" />
+
+                    <span>Removing background...</span>
+                  </div>
+                )}
+
+                {/* RESULT */}
+                {!loading && resultDataUrl && (
+                  <div className="fm-rm-result-wrap">
+                    <div className="fm-rm-checker">
+                      <img
+                        src={finalImage || resultDataUrl}
+                        alt="Background removed"
+                        className="fm-rm-preview"
+                      />
+                    </div>
+
+                    <div className="fm-rm-success">
+                      Background removed successfully
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          <div className="rm-card rounded-2xl p-4">
-            <label className="inline-flex items-center gap-2">
+          {/* FILE INFO */}
+          {inputFile && (
+            <div className="fm-rm-file-info">
+              <div>
+                <h4>{inputFile.name}</h4>
+
+                <p>
+                  {formatBytes(inputFile.size)} • {inputFile.type}
+                </p>
+              </div>
+
+              {compressedFile && (
+                <div className="fm-rm-badge">
+                  {compressedRatio != null
+                    ? `${compressedRatio}% optimized`
+                    : formatBytes(compressedFile.size)}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* OPTIONS */}
+          <div className="fm-rm-options">
+            <label className="fm-rm-checkbox">
               <input
                 type="checkbox"
                 checked={compressBeforeSend}
                 onChange={(e) => setCompressBeforeSend(e.target.checked)}
               />
-              <span className="text-sm">
-                Compress before sending (recommended)
-              </span>
+
+              <span>Compress image before processing</span>
             </label>
+          </div>
 
-            <div className="mt-4 flex gap-2">
-              <button
-                type="button"
-                onClick={handleRemove}
-                disabled={(!inputDataUrl && !inputFile) || loading}
-                className="rm-btn rm-btn-primary flex-1 px-4 py-2 rounded-md font-semibold disabled:opacity-60"
-              >
-                {loading ? "Processing…" : "Remove Background"}
-              </button>
+          {/* PROGRESS */}
+          {progress > 0 && (
+            <div className="fm-rm-progress">
+              <div
+                className="fm-rm-progress-bar"
+                style={{ width: `${progress}%` }}
+              />
 
-              <button
-                type="button"
-                onClick={handleReset}
-                disabled={loading}
-                className="rm-btn rm-btn-ghost px-3 py-2 rounded-md border"
-              >
-                Reset
-              </button>
-
-              {loading && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (abortRef.current) abortRef.current.abort();
-                    setLoading(false);
-                  }}
-                  className="rm-btn rm-btn-ghost px-3 py-2 rounded-md border"
-                >
-                  Cancel
-                </button>
-              )}
+              <span>{Math.round(progress)}%</span>
             </div>
+          )}
 
-            {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
+          {/* ACTIONS */}
+          <div className="fm-rm-actions">
+            <button
+              type="button"
+              onClick={handleRemove}
+              disabled={(!inputDataUrl && !inputFile) || loading}
+              className="fm-rm-primary-btn"
+            >
+              {loading ? "Processing..." : "Remove Background"}
+            </button>
 
-            <div className="mt-3" aria-hidden={progress === 0}>
-              <div className="h-2 rounded-full bg-[rgba(0,0,0,0.06)] overflow-hidden">
-                <div
-                  className="rm-progress-bar"
-                  style={{
-                    width: `${progress}%`,
-                    transition: "width 220ms linear",
-                    background:
-                      "linear-gradient(90deg, var(--accent), rgba(var(--brand-yellow-rgb),0.85))",
-                    height: "100%",
-                  }}
+            <button
+              type="button"
+              onClick={handleDownloadResult}
+              disabled={!resultDataUrl}
+              className="fm-rm-secondary-btn"
+            >
+              Download PNG
+            </button>
+
+            <button
+              type="button"
+              onClick={handleReset}
+              disabled={loading}
+              className="fm-rm-secondary-btn"
+            >
+              Reset
+            </button>
+          </div>
+
+          {/* BACKGROUND CONTROLS */}
+
+          <div className="fm-rm-background-tools">
+            <h4>Replace Background</h4>
+
+            <div className="fm-rm-bg-options">
+              <button
+                type="button"
+                onClick={() => setBgMode("transparent")}
+                className={bgMode === "transparent" ? "active" : ""}
+              >
+                Transparent
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setBgMode("color");
+                  setBgColor("#ffffff");
+                }}
+                className={bgMode === "color" ? "active" : ""}
+              >
+                Solid Color
+              </button>
+
+              <label className="fm-rm-bg-upload">
+                Upload Background
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleBackgroundUpload}
                 />
-              </div>
-              {progress > 0 && (
-                <div className="text-xs text-[var(--muted)] mt-1">
-                  {Math.round(progress)}%
-                </div>
-              )}
+              </label>
             </div>
+
+            {bgMode === "color" && (
+              <input
+                type="color"
+                value={bgColor}
+                onChange={(e) => setBgColor(e.target.value)}
+                className="fm-rm-color-picker"
+              />
+            )}
           </div>
+
+          {/* ERROR */}
+          {error && <div className="fm-rm-error">{error}</div>}
         </div>
 
-        {/* Previews */}
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Input preview */}
-          <div>
-            <div className="text-xs text-[var(--muted)] mb-2">Input</div>
-            <div className="rm-card rounded-2xl p-4">
-              <div className="h-56 rounded-md overflow-hidden flex items-center justify-center rm-image-area">
-                {inputDataUrl ? (
-                  <img
-                    src={inputDataUrl}
-                    alt="uploaded input"
-                    className="max-h-full max-w-full object-contain"
-                  />
-                ) : (
-                  <div className="text-gray-400 text-sm">No image selected</div>
-                )}
-              </div>
+        {/* RIGHT */}
+        <div className="fm-rm-how-card">
+          <div className="fm-rm-how-badge">AI Workflow</div>
 
-              <div className="mt-3 text-sm text-[var(--text)]">
-                {inputFile ? (
-                  <>
-                    <div className="font-semibold">{inputFile.name}</div>
-                    <div className="text-xs text-[var(--muted)]">
-                      {formatBytes(inputFile.size)} • {inputFile.type}
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-xs text-[var(--muted)]">
-                    Uploaded or preloaded image
-                  </div>
-                )}
+          <h3>How it works</h3>
 
-                {compressedFile && (
-                  <div className="rm-badge mt-2">
-                    {compressedRatio != null
-                      ? `${compressedRatio}% smaller`
-                      : `${formatBytes(compressedFile.size)}`}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <div className="fm-rm-how-steps">
+            <div className="fm-rm-how-step">
+              <div className="fm-rm-step-number">01</div>
 
-          {/* Result area (wide) */}
-          <div className="md:col-span-2 rm-card">
-            <div className="flex items-center justify-between mb-2">
-              <div className="text-xs text-[var(--muted)]">Result</div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  className="rm-btn rm-btn-ghost px-3 py-1 text-sm"
-                  onClick={handleDownloadResult}
-                  disabled={!resultDataUrl}
-                >
-                  Download
-                </button>
+              <div>
+                <h4>Upload your image</h4>
+
+                <p>Drag and drop or select any JPG, PNG, or WEBP image.</p>
               </div>
             </div>
 
-            <Checkered>
-              <div style={{ width: "100%" }}>
-                {loading ? (
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="rm-loader" aria-hidden />
-                    <div className="text-sm text-[var(--muted)]">
-                      Processing with remove.bg…
-                    </div>
-                  </div>
-                ) : resultDataUrl ? (
-                  <img
-                    src={resultDataUrl}
-                    alt="result with background removed"
-                    className="w-full h-56 object-contain"
-                  />
-                ) : (
-                  <div className="h-56 flex items-center justify-center text-[var(--muted)]">
-                    Result will appear here
-                  </div>
-                )}
-              </div>
-            </Checkered>
-          </div>
-        </div>
+            <div className="fm-rm-how-step">
+              <div className="fm-rm-step-number">02</div>
 
-        <div className="mt-4 text-sm text-[var(--muted)]">
-          Tip: Clear backgrounds and distinct subjects (product shots /
-          portraits) yield the best results.
+              <div>
+                <h4>AI removes background</h4>
+
+                <p>
+                  Advanced AI automatically detects and isolates the main
+                  subject.
+                </p>
+              </div>
+            </div>
+
+            <div className="fm-rm-how-step">
+              <div className="fm-rm-step-number">03</div>
+
+              <div>
+                <h4>Replace or customize</h4>
+
+                <p>
+                  Use transparent, solid color, or custom uploaded backgrounds.
+                </p>
+              </div>
+            </div>
+
+            <div className="fm-rm-how-step">
+              <div className="fm-rm-step-number">04</div>
+
+              <div>
+                <h4>Download final image</h4>
+
+                <p>
+                  Export high-quality PNG images ready for branding, products,
+                  thumbnails, social media, and more.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

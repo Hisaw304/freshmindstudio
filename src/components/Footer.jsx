@@ -1,144 +1,110 @@
-import React, { useState } from "react";
+// src/components/Footer.jsx
 
-const LINKS = [
-  { label: "How it works", href: "#how" },
-  { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
+import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { FaGithub, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const subscribe = (e) => {
-    e.preventDefault();
-    // stub: integrate with your newsletter backend
-    console.log("subscribe:", email);
-    setSubscribed(true);
-    setTimeout(() => setEmail(""), 600);
-  };
-
   return (
-    <footer className="footer-root">
-      <div className="max-w-[1200px] mx-auto px-6 py-14 footer-inner">
-        <div className="grid md:grid-cols-3 gap-10">
-          {/* brand */}
-          <div>
-            <a href="/" className="flex items-center gap-3 footer-brand">
-              <img
-                src="/assets/logo.svg"
-                alt="FreshMind Studio"
-                className="w-11 h-11"
-              />
-              <div>
-                <div className="font-bold text-lg">FreshMind Studio</div>
-                <div className="text-sm text-muted">
-                  Image tools for creators & teams
-                </div>
-              </div>
-            </a>
-
-            <p className="text-sm text-muted mt-4 max-w-[36ch]">
-              Remove backgrounds and compress images with a minimal interface —
-              built for speed and clarity.
-            </p>
+    <footer className="fm-st-footer">
+      {/* TOP */}
+      <div className="fm-st-footer-top">
+        {/* BRAND */}
+        <div className="fm-st-footer-brand">
+          <div className="fm-st-footer-logo-wrap">
+            <h2>Focus Studio</h2>
+            <span>- Creative SaaS Solutions -</span>
           </div>
 
-          {/* links */}
-          <nav aria-label="Quick links" className="footer-links">
-            <h4 className="text-sm font-semibold mb-3">Quick links</h4>
-            <ul className="space-y-2 text-sm">
-              {LINKS.map((l) => (
-                <li key={l.href}>
-                  <a className="footer-link" href={l.href}>
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <p>
+            Building modern SaaS tools that simplify workflows, improve
+            productivity, and help businesses move faster online.
+          </p>
 
-          {/* contact + subscribe */}
-          <div>
-            <h4 className="text-sm font-semibold mb-3">Contact</h4>
-            <div className="text-sm" style={{ color: "var(--accent)" }}>
-              <div className="footer-email text-muted">
-                hello@freshmind.studio
-              </div>
-              <div className="mt-2 text-muted">+1 (555) 123-4567</div>
-            </div>
+          <div className="fm-st-footer-socials">
+            <a href="#">
+              <FaTwitter size={18} />
+            </a>
 
-            <form className="mt-6 footer-newsletter" onSubmit={subscribe}>
-              <label className="text-xs">Subscribe to updates</label>
-              <div className="mt-2 flex gap-2">
-                <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="footer-input"
-                  type="email"
-                  placeholder="you@company.com"
-                  aria-label="Email address"
-                  required
-                />
-                <button
-                  className="footer-btn"
-                  type="submit"
-                  aria-disabled={subscribed}
-                >
-                  {subscribed ? "Subscribed" : "Subscribe"}
-                </button>
-              </div>
-            </form>
+            <a href="#">
+              <FaInstagram size={18} />{" "}
+            </a>
 
-            <div className="mt-6 flex items-center gap-4 footer-social">
-              <a aria-label="Twitter" href="#" className="social-link">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden
-                >
-                  <path fill="currentColor" d="M20 7.5c..." />
-                </svg>
-              </a>
-              <a aria-label="LinkedIn" href="#" className="social-link">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden
-                >
-                  <path fill="currentColor" d="M4.98 3.5C4.98..." />
-                </svg>
-              </a>
-              <a aria-label="Dribbble" href="#" className="social-link">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden
-                >
-                  <path fill="currentColor" d="M12 0C5.371 0..." />
-                </svg>
-              </a>
-            </div>
+            <a href="#">
+              <FaLinkedin size={18} />{" "}
+            </a>
+
+            <a href="#">
+              <FaGithub size={18} />
+            </a>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-t-muted pt-6 text-center text-sm text-muted">
-          © {new Date().getFullYear()} FreshMind Studio ·{" "}
-          <a className="footer-small-link" href="/privacy">
-            Privacy
-          </a>{" "}
-          ·{" "}
-          <a className="footer-small-link" href="/terms">
-            Terms
-          </a>
+        {/* LINKS */}
+        <div className="fm-st-footer-links">
+          <div className="fm-st-footer-column">
+            <h4>Navigation</h4>
+
+            <a href="/">Home</a>
+            <a href="/tools">Tools</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </div>
+
+          <div className="fm-st-footer-column">
+            <h4>Quick Links</h4>
+
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+
+          <div className="fm-st-footer-column">
+            <h4>Tools</h4>
+
+            <a href="#">Image Compressor</a>
+            <a href="#">Background Remover</a>
+            <a href="#">PDF Tools</a>
+            <a href="#">AI Utilities</a>
+          </div>
+        </div>
+
+        {/* CONTACT CARD */}
+        <div className="fm-st-footer-contact">
+          <div className="fm-st-footer-contact-card">
+            <h4>Get In Touch</h4>
+
+            <div className="fm-st-footer-contact-item">
+              <Mail size={18} />
+              <span>hello@focusstudio.com</span>
+            </div>
+
+            <div className="fm-st-footer-contact-item">
+              <Phone size={18} />
+              <span>+1 (860) 821-3853</span>
+            </div>
+
+            <div className="fm-st-footer-contact-item">
+              <MapPin size={18} />
+              <span>Laconia, New Hampshire</span>
+            </div>
+
+            <a href="/contact" className="fm-st-footer-btn">
+              Start a Project
+              <ArrowUpRight size={18} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* BOTTOM */}
+      <div className="fm-st-footer-bottom">
+        <p>© 2026 Focus Studio. All rights reserved.</p>
+
+        <div className="fm-st-footer-bottom-links">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="#">Cookies</a>
         </div>
       </div>
     </footer>

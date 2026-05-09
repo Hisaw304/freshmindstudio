@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ContactPage from "./pages/ContactPage";
-import CryptoTipModal from "./components/CryptoTipModal";
+// import CryptoTipModal from "./components/CryptoTipModal";
 
 const App = () => {
   return (
@@ -23,7 +23,7 @@ const App = () => {
 
       {/* Floating Global Tip Modal */}
       <div className="fixed bottom-6 right-6 z-50">
-        <CryptoTipModal />
+        {/* <CryptoTipModal /> */}
       </div>
     </div>
   );

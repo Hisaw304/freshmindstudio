@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { compressFile } from "../../hooks/useImageCompressor";
 import { fileToDataUrl } from "../../utils/toBase64";
-
-/* helpers */
+import { Upload } from "lucide-react";
 function formatBytes(bytes) {
   if (!bytes && bytes !== 0) return "";
   if (bytes === 0) return "0 B";
@@ -12,9 +11,6 @@ function formatBytes(bytes) {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
 
-/**
- * CompressorModern — polished, accent-forward UI
- */
 export default function CompressorModern() {
   const [originalFile, setOriginalFile] = useState(null);
   const [originalDataUrl, setOriginalDataUrl] = useState(null);
@@ -49,7 +45,6 @@ export default function CompressorModern() {
     };
   }, []);
 
-  /* File handling */
   const handleFiles = async (files) => {
     if (!files || files.length === 0) return;
     const file = files[0];
@@ -95,7 +90,7 @@ export default function CompressorModern() {
     }
     setError(null);
     setLoading(true);
-    setProgress(4); // start
+    setProgress(4);
 
     progressIntervalRef.current = setInterval(() => {
       setProgress((p) => {
@@ -146,7 +141,7 @@ export default function CompressorModern() {
     const a = document.createElement("a");
     const ext = file.name?.split(".").pop() || "png";
     a.href = url;
-    a.download = `freshmind-compressed.${ext}`;
+    a.download = `focusstudio-compressed.${ext}`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -160,8 +155,7 @@ export default function CompressorModern() {
       return;
     }
     try {
-      sessionStorage.setItem("freshmind:selectedImage", durl);
-      // navigate to remover
+      sessionStorage.setItem("focusstudio:selectedImage", durl);
       if (typeof window !== "undefined") window.location.href = "#remover";
     } catch (err) {
       setError("Failed to use image in remover.");
@@ -175,144 +169,120 @@ export default function CompressorModern() {
       : null;
 
   return (
-    <section className="compressor max-w-6xl mx-auto px-6 py-10">
+    <section className="fm-st-compressor">
       <div aria-live="polite" ref={liveRegionRef} className="sr-only" />
 
-      <header className="mb-8">
-        <h1 className="text-2xl font-extrabold text-[var(--text)]">
-          Image Compressor
-        </h1>
-        <p className="text-sm text-[var(--muted)] mt-2 max-w-[70ch]">
-          Compress images client-side — keep quality, reduce upload times, and
-          prepare for background removal.
+      {/* HEADER */}
+      <div className="fm-st-compressor-header">
+        <h1>Image Compressor</h1>
+
+        <p>
+          Compress and optimize images directly in your browser while
+          maintaining quality. Resize dimensions, reduce file size, and download
+          optimized assets instantly.
         </p>
-      </header>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* LEFT: controls */}
-        <div className="col-span-1 flex flex-col gap-4">
-          {/* Dropzone card */}
+      </div>
+      <div className="fm-st-compressor-layout">
+        {/* MAIN CARD */}
+        <div
+          className={`fm-st-compressor-card ${
+            dragActive ? "fm-st-compressor-card-active" : ""
+          }`}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+        >
+          {/* UPLOAD AREA */}
           <div
-            className={`cm-card  rounded-2xl p-4 transition ${
-              dragActive ? "cm-card--drag" : ""
+            className={`fm-st-dropzone ${
+              dragActive ? "fm-st-dropzone-active" : ""
             }`}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            role="region"
-            aria-label="Upload image"
+            tabIndex={0}
+            role="button"
+            onClick={() => inputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                inputRef.current?.click();
+              }
+            }}
           >
-            <div
-              tabIndex={0}
-              role="button"
-              onClick={() => inputRef.current?.click()}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ")
-                  inputRef.current?.click();
-              }}
-              className={`cm-dropzone flex flex-col items-center justify-center gap-3 w-full h-44 rounded-lg cursor-pointer ${
-                dragActive ? "cm-dropzone--active" : ""
-              }`}
-            >
-              <input
-                ref={inputRef}
-                type="file"
-                accept="image/*"
-                className="sr-only"
-                onChange={(e) => handleFiles(e.target.files)}
-              />
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              onChange={(e) => handleFiles(e.target.files)}
+            />
 
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 24 24"
-                className="cm-icon"
-                aria-hidden
-                focusable="false"
-              >
-                <path
-                  d="M12 3v10"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M20.5 16.5V7.5A2.5 2.5 0 0018 5h-3"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M3.5 13.5v3A2.5 2.5 0 006 19h12"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M8 12l4-4 4 4"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            {!originalDataUrl ? (
+              <>
+                <div className="fm-st-upload-icon">
+                  <Upload />
+                </div>
 
-              <div className="text-sm font-semibold text-[var(--text)]">
-                Drop or choose an image
+                <h3>Drop your image here</h3>
+
+                <p>PNG • JPG • WEBP</p>
+
+                <button
+                  type="button"
+                  className="fm-st-upload-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    inputRef.current?.click();
+                  }}
+                >
+                  Select Image
+                </button>
+              </>
+            ) : (
+              <div className="fm-st-preview-wrap">
+                <img src={compressedDataUrl || originalDataUrl} alt="Preview" />
+
+                <div className="fm-st-image-meta">
+                  <div>
+                    <span>Original</span>
+                    <strong>{formatBytes(originalFile?.size || 0)}</strong>
+                  </div>
+
+                  {compressedFile && (
+                    <div>
+                      <span>Compressed</span>
+                      <strong>{formatBytes(compressedFile?.size || 0)}</strong>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="text-xs text-[var(--muted)]">
-                JPG • PNG • WebP
-              </div>
-
-              <button
-                type="button"
-                className="cm-btn cm-btn-pill mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  inputRef.current?.click();
-                }}
-              >
-                Select file
-              </button>
-            </div>
+            )}
           </div>
 
-          {/* Presets (pills) */}
-          <div className="cm-card rounded-2xl p-4">
-            <label className="text-sm font-medium text-[var(--muted)]">
-              Preset
-            </label>
-            <div className="mt-3 flex gap-2">
-              {["small", "medium", "large"].map((p) => {
-                const active = p === preset;
-                return (
-                  <button
-                    key={p}
-                    onClick={() => {
-                      setPreset(p);
-                      setMaxWidthOrHeight(presets[p].mw);
-                    }}
-                    className={`cm-pill ${active ? "cm-pill--active" : ""}`}
-                    aria-pressed={active}
-                  >
-                    {p}
-                  </button>
-                );
-              })}
+          {/* CONTROLS */}
+          <div className="fm-st-compressor-controls">
+            {/* PRESET */}
+            <div className="fm-st-control-group">
+              <label>Compression Preset</label>
+
+              <select
+                value={preset}
+                onChange={(e) => {
+                  setPreset(e.target.value);
+                  setMaxWidthOrHeight(presets[e.target.value].mw);
+                }}
+              >
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
             </div>
 
-            <div className="mt-4">
-              <label className="text-sm font-medium text-[var(--muted)]">
-                Max dimension
-              </label>
+            {/* DIMENSIONS */}
+            <div className="fm-st-control-group">
+              <label>Max Dimension</label>
+
               <input
                 type="number"
                 min="200"
                 step="100"
-                className="mt-2 w-full rounded-md border px-3 py-2 text-sm bg-transparent text-[var(--text)]"
                 value={maxWidthOrHeight}
                 onChange={(e) =>
                   setMaxWidthOrHeight(
@@ -320,161 +290,86 @@ export default function CompressorModern() {
                   )
                 }
               />
-              <div className="text-xs text-[var(--muted)] mt-2">
-                Target: <strong>{presets[preset].maxSizeMB} MB</strong>
-              </div>
             </div>
 
-            {/* Actions */}
-            <div className="mt-4 flex flex-col sm:flex-row gap-2">
+            {/* PROGRESS */}
+            {progress > 0 && (
+              <div className="fm-st-progress">
+                <div
+                  className="fm-st-progress-bar"
+                  style={{ width: `${progress}%` }}
+                />
+
+                <span>{Math.round(progress)}%</span>
+              </div>
+            )}
+
+            {/* ACTIONS */}
+            <div className="fm-st-compressor-actions">
               <button
                 type="button"
                 onClick={handleCompress}
                 disabled={!originalFile || loading}
-                className="cm-btn cm-btn-primary flex-1 px-4 py-2 rounded-md font-semibold disabled:opacity-60"
+                className="fm-st-primary-btn"
               >
-                {loading ? "Compressing…" : "Compress"}
+                {loading ? "Compressing..." : "Compress Image"}
               </button>
 
               <button
                 type="button"
                 onClick={handleDownload}
-                disabled={!(compressedFile || originalFile)}
-                className="cm-btn cm-btn-ghost px-4 py-2 rounded-md"
+                disabled={!compressedFile}
+                className="fm-st-secondary-btn"
               >
                 Download
               </button>
-
-              <button
-                type="button"
-                onClick={handleUseInRemover}
-                disabled={!(compressedDataUrl || originalDataUrl)}
-                className="cm-btn cm-btn-ghost px-4 py-2 rounded-md"
-              >
-                Use in Remover
-              </button>
             </div>
 
-            {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
-
-            {/* progress bar */}
-            <div className="mt-3" aria-hidden={progress === 0}>
-              <div className="h-2 rounded-full bg-[rgba(0,0,0,0.06)] overflow-hidden">
-                <div
-                  className="cm-progress-bar"
-                  style={{
-                    width: `${progress}%`,
-                    transition: "width 220ms linear",
-                    background:
-                      "linear-gradient(90deg, var(--accent), rgba(var(--brand-yellow-rgb),0.8))",
-                    height: "100%",
-                  }}
-                />
-              </div>
-              {progress > 0 && (
-                <div className="text-xs text-[var(--muted)] mt-1">
-                  {Math.round(progress)}%
-                </div>
-              )}
-            </div>
+            {/* ERROR */}
+            {error && <div className="fm-st-error">{error}</div>}
           </div>
         </div>
+        {/* RIGHT - HOW IT WORKS */}
+        <div className="fm-st-how-card">
+          <div className="fm-st-how-badge">Simple Process</div>
 
-        {/* RIGHT: previews (two columns) */}
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            { label: "Original", src: originalDataUrl, file: originalFile },
-            {
-              label: "Compressed",
-              src: compressedDataUrl,
-              file: compressedFile,
-            },
-          ].map(({ label, src, file }, idx) => (
-            <div
-              key={idx}
-              className="cm-preview-card rounded-2xl p-4"
-              role="group"
-              aria-label={`${label} preview card`}
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-xs text-[var(--muted)]">{label}</p>
-                  {file ? (
-                    <p className="text-sm font-semibold text-[var(--text)] mt-1">
-                      {file.name}
-                    </p>
-                  ) : (
-                    <p className="text-sm text-[var(--muted)] mt-1">No image</p>
-                  )}
-                </div>
+          <h3>How it works</h3>
 
-                <div>
-                  {file && (
-                    <div
-                      className="cm-badge"
-                      role="status"
-                      aria-label="file size"
-                    >
-                      {label === "Compressed" && compressionRatio != null
-                        ? `${compressionRatio}% smaller`
-                        : formatBytes(file.size)}
-                    </div>
-                  )}
-                </div>
-              </div>
+          <div className="fm-st-how-steps">
+            <div className="fm-st-how-step">
+              <div className="fm-st-step-number">01</div>
 
-              {/* image area */}
-              <div className="mt-3 h-64 rounded-md overflow-hidden cm-image-area flex items-center justify-center">
-                {src ? (
-                  <img
-                    src={src}
-                    alt={`${label} preview`}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                ) : (
-                  <div className="text-sm text-[var(--muted)]">
-                    No image selected
-                  </div>
-                )}
-              </div>
+              <div>
+                <h4>Upload your image</h4>
 
-              {/* utilities row */}
-              <div className="mt-3 flex items-center justify-between">
-                <div className="text-xs text-[var(--muted)]">
-                  {file ? `${formatBytes(file.size)} • ${file.type}` : ""}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {src && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const w = window.open("", "_blank");
-                        if (w) {
-                          w.document.write(
-                            `<img src="${src}" style="max-width:100%"/>`
-                          );
-                          w.document.close();
-                        }
-                      }}
-                      className="cm-btn cm-btn-ghost text-xs px-2 py-1 rounded-md"
-                    >
-                      Preview
-                    </button>
-                  )}
-
-                  {label === "Compressed" && compressedFile && (
-                    <button
-                      onClick={handleDownload}
-                      className="cm-btn cm-btn-ghost text-xs px-2 py-1 rounded-md"
-                    >
-                      Download
-                    </button>
-                  )}
-                </div>
+                <p>Drag and drop or select any PNG, JPG, or WEBP image.</p>
               </div>
             </div>
-          ))}
+
+            <div className="fm-st-how-step">
+              <div className="fm-st-step-number">02</div>
+
+              <div>
+                <h4>Choose optimization</h4>
+
+                <p>
+                  Adjust compression quality and image dimensions instantly.
+                </p>
+              </div>
+            </div>
+
+            <div className="fm-st-how-step">
+              <div className="fm-st-step-number">03</div>
+
+              <div>
+                <h4>Download optimized file</h4>
+
+                <p>
+                  Get a smaller, faster-loading image without losing quality.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

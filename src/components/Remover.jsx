@@ -157,7 +157,7 @@ export default function RemoverModern() {
         return cdurl;
       } catch (err) {
         console.warn("compress from dataUrl failed:", err);
-        return inputDataUrl; // fallback
+        return inputDataUrl;
       }
     }
 
@@ -341,12 +341,23 @@ export default function RemoverModern() {
     }
   };
   const handleDownloadResult = () => {
-    if (!resultDataUrl) return;
+    const imageToDownload = finalImage || resultDataUrl;
+
+    if (!imageToDownload) return;
+
     const a = document.createElement("a");
-    a.href = resultDataUrl;
-    a.download = "focusstudio-removed.png";
+
+    a.href = imageToDownload;
+
+    a.download =
+      bgMode === "transparent"
+        ? "focusstudio-transparent.png"
+        : "focusstudio-edited.png";
+
     document.body.appendChild(a);
+
     a.click();
+
     a.remove();
   };
 

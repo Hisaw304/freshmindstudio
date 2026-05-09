@@ -2,7 +2,7 @@
 import axios from "axios";
 import FormData from "form-data";
 
-const MAX_BASE64_LENGTH = 6_000_000; // ~6MB base64 length safeguard
+const MAX_BASE64_LENGTH = 6_000_000;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

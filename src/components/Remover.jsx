@@ -284,7 +284,33 @@ export default function RemoverModern() {
           bg.onload = resolve;
         });
 
-        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+        /* COVER BACKGROUND */
+
+        const canvasRatio = canvas.width / canvas.height;
+        const imageRatio = bg.width / bg.height;
+
+        let drawWidth;
+        let drawHeight;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (imageRatio > canvasRatio) {
+          /* image wider */
+
+          drawHeight = canvas.height;
+          drawWidth = bg.width * (canvas.height / bg.height);
+
+          offsetX = (canvas.width - drawWidth) / 2;
+        } else {
+          /* image taller */
+
+          drawWidth = canvas.width;
+          drawHeight = bg.height * (canvas.width / bg.width);
+
+          offsetY = (canvas.height - drawHeight) / 2;
+        }
+
+        ctx.drawImage(bg, offsetX, offsetY, drawWidth, drawHeight);
       }
 
       /* foreground */

@@ -1054,12 +1054,15 @@ body {
 
 .fm-st-control-group input,
 .fm-st-control-group select {
+  width: 100%;
+  min-width: 0;
   height: 52px;
+  padding: 0 16px;
   border-radius: 14px;
   border: 1px solid var(--fm-st-border);
   background: var(--fm-st-body);
   color: var(--fm-st-text);
-  padding: 0 16px;
+  box-sizing: border-box;
 }
 
 /* ========================= */

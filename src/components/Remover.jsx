@@ -256,35 +256,61 @@ export default function RemoverModern() {
     if (!resultDataUrl) return;
 
     try {
+      /* FOREGROUND PNG */
+
       const fg = new Image();
       fg.src = resultDataUrl;
 
-      await new Promise((resolve) => {
+      await new Promise((resolve, reject) => {
         fg.onload = resolve;
+        fg.onerror = reject;
       });
+
+      /* BASE IMAGE FOR REAL DIMENSIONS */
+
+      const base = new Image();
+      base.src = inputDataUrl || resultDataUrl;
+
+      await new Promise((resolve, reject) => {
+        base.onload = resolve;
+        base.onerror = reject;
+      });
+
+      /* CANVAS */
 
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
 
-      canvas.width = fg.width;
-      canvas.height = fg.height;
+      canvas.width = base.naturalWidth || base.width;
+      canvas.height = base.naturalHeight || base.height;
 
-      /* transparent = nothing */
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
+      /* ========================= */
+      /* SOLID COLOR BACKGROUND */
+      /* ========================= */
 
       if (mode === "color") {
         ctx.fillStyle = color;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
+      /* ========================= */
+      /* IMAGE BACKGROUND */
+      /* ========================= */
+
       if (mode === "image" && image) {
         const bg = new Image();
+
         bg.src = image;
 
-        await new Promise((resolve) => {
+        await new Promise((resolve, reject) => {
           bg.onload = resolve;
+          bg.onerror = reject;
         });
 
-        /* COVER BACKGROUND */
+        /* COVER ALGORITHM */
 
         const canvasRatio = canvas.width / canvas.height;
         const imageRatio = bg.width / bg.height;
@@ -295,14 +321,14 @@ export default function RemoverModern() {
         let offsetY = 0;
 
         if (imageRatio > canvasRatio) {
-          /* image wider */
+          /* wider image */
 
           drawHeight = canvas.height;
           drawWidth = bg.width * (canvas.height / bg.height);
 
           offsetX = (canvas.width - drawWidth) / 2;
         } else {
-          /* image taller */
+          /* taller image */
 
           drawWidth = canvas.width;
           drawHeight = bg.height * (canvas.width / bg.width);
@@ -313,15 +339,20 @@ export default function RemoverModern() {
         ctx.drawImage(bg, offsetX, offsetY, drawWidth, drawHeight);
       }
 
-      /* foreground */
+      /* ========================= */
+      /* FOREGROUND */
+      /* ========================= */
 
-      ctx.drawImage(fg, 0, 0);
+      ctx.drawImage(fg, 0, 0, canvas.width, canvas.height);
+
+      /* EXPORT */
 
       const merged = canvas.toDataURL("image/png");
 
       setFinalImage(merged);
     } catch (err) {
       console.error(err);
+
       setError("Failed generating final image.");
     }
   };

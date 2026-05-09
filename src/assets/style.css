@@ -9,6 +9,12 @@
   --fm-st-border: rgba(53, 56, 57, 0.12);
   --fm-st-success: #22c55e;
 }
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 * {
   box-sizing: border-box;
 }

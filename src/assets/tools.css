@@ -1,0 +1,490 @@
+:root {
+  --fm-st-body: #ffffff;
+  --fm-st-surface: #f8f9fb;
+  --fm-st-primary: #ffd700;
+  --fm-st-primary-hover: #e6c200;
+  --fm-st-secondary: #353839;
+  --fm-st-text: #1f2937;
+  --fm-st-text-muted: #6b7280;
+  --fm-st-border: rgba(53, 56, 57, 0.12);
+  --fm-st-success: #22c55e;
+}
+
+/* =========================================================
+   PDF TOOLS
+========================================================= */
+
+.fm-pdf {
+  max-width: 1300px;
+  margin: auto;
+  padding: 120px 20px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.fm-pdf-header {
+  margin-bottom: 40px;
+}
+
+.fm-pdf-header h1 {
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -2px;
+  font-weight: 900;
+  color: var(--fm-st-text);
+}
+
+.fm-pdf-header p {
+  margin-top: 18px;
+  max-width: 760px;
+
+  font-size: 17px;
+  line-height: 1.8;
+
+  color: var(--fm-st-text-muted);
+}
+
+/* =========================================================
+   TOOL SELECTOR
+========================================================= */
+
+.fm-pdf-selector {
+  margin-bottom: 30px;
+}
+
+.fm-pdf-selector select {
+  width: 100%;
+  max-width: 320px;
+
+  height: 56px;
+
+  padding: 0 18px;
+
+  border-radius: 16px;
+
+  border: 1px solid var(--fm-st-border);
+
+  background: var(--fm-st-surface);
+
+  color: var(--fm-st-text);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  outline: none;
+
+  transition: 0.3s ease;
+}
+
+.fm-pdf-selector select:focus {
+  border-color: var(--fm-st-primary);
+}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.fm-pdf-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.fm-pdf-card {
+  background: var(--fm-st-surface);
+
+  border: 1px solid var(--fm-st-border);
+
+  border-radius: 32px;
+
+  padding: 28px;
+
+  transition: 0.3s ease;
+}
+
+.fm-pdf-card-active {
+  border-color: var(--fm-st-primary);
+
+  box-shadow: 0 0 0 1px var(--fm-st-primary);
+}
+
+/* =========================================================
+   DROPZONE
+========================================================= */
+
+.fm-pdf-dropzone {
+  min-height: 460px;
+
+  border: 2px dashed var(--fm-st-border);
+
+  border-radius: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 40px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.fm-pdf-dropzone-active {
+  border-color: var(--fm-st-primary);
+
+  background: rgba(255, 215, 0, 0.04);
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.fm-pdf-upload-icon {
+  width: 78px;
+  height: 78px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 215, 0, 0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 22px;
+
+  color: var(--fm-st-primary);
+}
+
+/* =========================================================
+   DROPZONE TEXT
+========================================================= */
+
+.fm-pdf-dropzone h3 {
+  font-size: 30px;
+  font-weight: 800;
+
+  color: var(--fm-st-text);
+}
+
+.fm-pdf-dropzone p {
+  margin-top: 14px;
+
+  max-width: 520px;
+
+  color: var(--fm-st-text-muted);
+
+  line-height: 1.8;
+}
+
+/* =========================================================
+   FILE STATE
+========================================================= */
+
+.fm-pdf-file {
+  width: 100%;
+}
+
+.fm-pdf-file h4 {
+  font-size: 24px;
+  font-weight: 700;
+
+  color: var(--fm-st-text);
+
+  word-break: break-word;
+}
+
+.fm-pdf-file p {
+  margin-top: 10px;
+
+  color: var(--fm-st-text-muted);
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.fm-pdf-primary-btn,
+.fm-pdf-secondary-btn {
+  height: 54px;
+
+  padding: 0 22px;
+
+  border-radius: 14px;
+
+  font-weight: 700;
+
+  transition: 0.3s ease;
+}
+
+.fm-pdf-primary-btn {
+  margin-top: 24px;
+
+  background: var(--fm-st-primary);
+
+  color: var(--fm-st-secondary);
+}
+
+.fm-pdf-primary-btn:hover {
+  transform: translateY(-2px);
+}
+
+.fm-pdf-secondary-btn {
+  border: 1px solid var(--fm-st-border);
+
+  color: var(--fm-st-text);
+
+  background: transparent;
+}
+
+.fm-pdf-secondary-btn:hover {
+  border-color: var(--fm-st-primary);
+}
+
+/* =========================================================
+   HOW CARD
+========================================================= */
+
+.fm-pdf-how-card {
+  position: sticky;
+  top: 120px;
+
+  background: var(--fm-st-surface);
+
+  border: 1px solid var(--fm-st-border);
+
+  border-radius: 32px;
+
+  padding: 32px;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.fm-pdf-how-badge {
+  display: inline-flex;
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 215, 0, 0.12);
+
+  border: 1px solid rgba(255, 215, 0, 0.18);
+
+  color: #b58900;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   HOW TITLE
+========================================================= */
+
+.fm-pdf-how-card h3 {
+  margin-top: 22px;
+
+  font-size: 34px;
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  color: var(--fm-st-text);
+}
+
+/* =========================================================
+   STEPS
+========================================================= */
+
+.fm-pdf-how-steps {
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.fm-pdf-how-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* =========================================================
+   STEP NUMBER
+========================================================= */
+
+.fm-pdf-step-number {
+  min-width: 52px;
+  height: 52px;
+
+  border-radius: 16px;
+
+  background: var(--fm-st-primary);
+
+  color: var(--fm-st-secondary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   STEP CONTENT
+========================================================= */
+
+.fm-pdf-how-step h4 {
+  font-size: 17px;
+  font-weight: 700;
+
+  color: var(--fm-st-text);
+}
+
+.fm-pdf-how-step p {
+  margin-top: 8px;
+
+  color: var(--fm-st-text-muted);
+
+  line-height: 1.7;
+
+  font-size: 15px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 980px) {
+  .fm-pdf-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .fm-pdf-how-card {
+    position: relative;
+    top: unset;
+  }
+}
+
+@media (max-width: 768px) {
+  .fm-pdf {
+    padding: 90px 16px;
+  }
+
+  .fm-pdf-card {
+    padding: 18px;
+  }
+
+  .fm-pdf-dropzone {
+    min-height: 340px;
+    padding: 30px 20px;
+  }
+
+  .fm-pdf-dropzone h3 {
+    font-size: 24px;
+  }
+
+  .fm-pdf-how-card {
+    padding: 24px;
+  }
+
+  .fm-pdf-how-card h3 {
+    font-size: 28px;
+  }
+}
+
+/* ========================= */
+/* FIELD */
+/* ========================= */
+
+.fm-pdf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fm-pdf-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fm-st-text);
+}
+
+.fm-pdf-field input {
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid var(--fm-st-border);
+  background: var(--fm-st-body);
+  padding: 0 16px;
+  color: var(--fm-st-text);
+}
+
+.fm-pdf-field small {
+  color: var(--fm-st-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+/* OCR PREVIEW */
+
+.fm-pdf-ocr-preview {
+  width: 100%;
+  max-height: 420px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.fm-pdf-ocr-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+}
+
+/* OCR RESULT */
+
+.fm-pdf-ocr-result {
+  margin-top: 20px;
+}
+
+.fm-pdf-result-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.fm-pdf-ocr-textarea {
+  width: 100%;
+  min-height: 260px;
+
+  border-radius: 18px;
+  border: 1px solid var(--fm-pdf-border);
+
+  background: var(--fm-pdf-body);
+
+  color: var(--fm-pdf-text);
+
+  padding: 18px;
+
+  resize: vertical;
+
+  line-height: 1.7;
+}

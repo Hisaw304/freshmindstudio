@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 
 import "./assets/style.css";
+import "./assets/tools.css";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>

@@ -9,27 +9,15 @@ import FAQ from "../components/FAQ";
 import Pricing from "../components/Pricing";
 import ContactPage from "../components/Contact";
 import Contact from "../components/Contact";
+import PdfTools from "../components/pdf/PdfTools";
 
 const Home = () => {
   return (
     <div>
-      {/* Hero Section */}
       <Hero />
-
-      {/* Compressor Tool */}
-      <section id="compressor" className="py-16">
-        <div className="container mx-auto px-4">
-          <Compressor />
-        </div>
-      </section>
-
-      {/* Remover Tool */}
-      <section id="remover" className="py-16 ">
-        <div className="container mx-auto px-4">
-          <Remover />
-        </div>
-      </section>
-
+      <Compressor />
+      <Remover />
+      <PdfTools />
       <HowItWorks />
       <Features />
       <Testimonials />

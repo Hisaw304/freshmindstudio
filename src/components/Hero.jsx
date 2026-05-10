@@ -33,7 +33,7 @@ export default function Hero() {
               }}
             >
               <Sparkles size={16} />
-              <span>AI Powered</span>
+              <span>AI Enhanced</span>
             </motion.div>
 
             <motion.div
@@ -57,7 +57,7 @@ export default function Hero() {
               }}
             >
               <Wand2 size={16} />
-              <span>More Tools Coming</span>
+              <span>Growing Tool Library</span>
             </motion.div>
 
             <motion.div
@@ -83,7 +83,7 @@ export default function Hero() {
         >
           {/* TOP BADGE */}
           <div className="fm-st-hero-badge">
-            <span>Modern SaaS Utilities Platform</span>
+            <span>Modern Creative Utilities Platform</span>
           </div>
 
           {/* HEADING */}
@@ -99,17 +99,19 @@ export default function Hero() {
           {/* MINI INFO */}
           <div className="fm-st-hero-mini">
             <span>
-              Starting with image tools today — expanding into a complete
-              creative toolkit tomorrow.
+              Image tools, PDF utilities, optimization tools, and more — all in
+              one growing platform.
             </span>
           </div>
 
           {/* TEXT */}
           <p>
-            Focus Studio is building a growing collection of modern online tools
-            designed to help creators, freelancers, teams, and businesses work
-            faster and smarter. From image optimization to future AI-powered
-            utilities, our focus is creating simple tools with powerful results.
+            Focus Studio is building a modern collection of online utilities
+            designed to simplify digital workflows for creators, freelancers,
+            businesses, and teams. From image compression and background removal
+            to PDF tools and future productivity utilities, our mission is to
+            create fast, accessible, and beautifully designed tools that save
+            time and help people work smarter every day.
           </p>
 
           {/* CTA */}

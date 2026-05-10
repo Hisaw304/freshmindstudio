@@ -1,129 +1,118 @@
-import React from "react";
+import { motion } from "framer-motion";
+import { Star, Quote } from "lucide-react";
 
-/**
- * Generate two HSL colors from a name for a pleasant gradient.
- * Returns an object { g1, g2, fg } where g1/g2 are CSS color strings
- * and fg is a readable foreground color ('#111' or '#fff').
- */
-function gradientFromName(name) {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const h = Math.abs(hash) % 360;
-  const h2 = (h + 30) % 360;
-  // two pastel-ish colors
-  const g1 = `hsl(${h}, 66%, 78%)`;
-  const g2 = `hsl(${h2}, 62%, 72%)`;
-  // decide foreground for contrast (darker text on these pastels)
-  const fg = "#111";
-  return { g1, g2, fg };
-}
+const TESTIMONIALS = [
+  {
+    name: "Marcus Lee",
+    role: "Creative Director",
+    company: "Northline Media",
+    text: "Focus Studio completely simplified our workflow. The image tools are fast, reliable, and incredibly easy to use. What impressed us most was how clean and modern the experience feels compared to most online utility platforms.",
+  },
 
-/** initials from first + last words */
-function initialsFromName(name) {
-  if (!name) return "";
-  const parts = name.trim().split(/\s+/);
-  const first = parts[0]?.[0] || "";
-  const last = (parts.length > 1 ? parts[parts.length - 1][0] : "") || "";
-  return (first + last).toUpperCase();
-}
+  {
+    name: "Nina Patel",
+    role: "Marketing Lead",
+    company: "Elevate Commerce",
+    text: "We regularly optimize hundreds of assets for campaigns, and Focus Studio has already saved our team a significant amount of time. The platform feels premium, lightweight, and built with real creators in mind.",
+  },
 
-const DEFAULT_TESTIMONIALS = [
   {
-    name: "Sarah Collins",
-    role: "Product Designer",
-    quote:
-      "FreshMind saved hours on our product photo workflow — results are crisp and exports are perfect for our store.",
-  },
-  {
-    name: "John Miller",
-    role: "E-commerce Lead",
-    quote:
-      "Compression + background removal in one place. Fast, reliable, and simple to use.",
-  },
-  {
-    name: "Aisha Bello",
-    role: "Content Creator",
-    quote:
-      "I love that images are compressed first — it made batch processing so much faster.",
-  },
-  {
-    name: "Mark Zhang",
+    name: "Adrian Flores",
     role: "Founder",
-    quote:
-      "Great for prototypes and production. The serverless proxy keeps our API key safe.",
+    company: "Studio Nova",
+    text: "The background remover alone is worth bookmarking. Results are clean, processing is fast, and the interface feels far more polished than many larger competitors. Excited to see the future tools they release.",
+  },
+
+  {
+    name: "Jasmine Brooks",
+    role: "Brand Strategist",
+    company: "Lumen Creative",
+    text: "Focus Studio strikes the perfect balance between simplicity and functionality. Everything feels thoughtfully designed, from the upload experience to the processing flow and final downloads.",
+  },
+
+  {
+    name: "Ethan Cole",
+    role: "Product Designer",
+    company: "PixelForge",
+    text: "As someone who works with visuals daily, having fast browser-based utilities makes a huge difference. Focus Studio feels modern, responsive, and refreshingly uncluttered.",
+  },
+
+  {
+    name: "Maya Reynolds",
+    role: "Operations Manager",
+    company: "BrightScale",
+    text: "Most online tools feel outdated or overloaded with ads. Focus Studio feels premium and professional. The workflow is smooth, the tools are practical, and the platform clearly has long-term potential.",
   },
 ];
 
-export default function Testimonials({
-  id = "testimonials",
-  testimonials = DEFAULT_TESTIMONIALS,
-}) {
+export default function Testimonials() {
   return (
-    <section id={id} className="tm-root py-16">
-      <div className="max-w-[1100px] mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto">
-          <div className="tm-eyebrow inline-flex items-center gap-3 rounded-full px-3 py-1 text-xs font-medium mb-4">
-            <span className="tm-eyebrow-dot" aria-hidden />
-            <span className="tm-eyebrow-text">Trusted by creators</span>
+    <section className="fm-st-testimonials">
+      <div className="fm-st-testimonials-container">
+        {/* HEADER */}
+        <motion.div
+          className="fm-st-testimonials-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className="fm-st-testimonials-badge">
+            <span>Testimonials</span>
           </div>
 
-          <h2 className="tm-heading text-3xl sm:text-4xl font-extrabold leading-tight">
-            What people are saying
-          </h2>
+          <h2>Trusted by creators, teams, and growing businesses</h2>
 
-          <p className="tm-lead mt-4">
-            Short, honest feedback from creators and teams using FreshMind
-            Studio.
+          <p>
+            Focus Studio is designed to help modern teams and creators work
+            faster with simple yet powerful online utilities built around speed,
+            usability, and efficiency.
           </p>
-        </div>
+        </motion.div>
 
-        <div
-          className="mt-10 tm-grid"
-          role="list"
-          aria-label="Customer testimonials"
-        >
-          {testimonials.map((t, i) => {
-            const { g1, g2, fg } = gradientFromName(t.name || String(i));
-            const initials = initialsFromName(t.name || "");
-            return (
-              <figure
-                key={i}
-                className="tm-card"
-                role="group"
-                aria-labelledby={`tm-quote-title-${i}`}
-                tabIndex={0} // allow keyboard focus to reveal focus styles
+        {/* LIST */}
+        <div className="fm-st-testimonials-list">
+          <motion.div
+            className="fm-st-testimonials-card"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* BIG QUOTE */}
+            <div className="fm-st-testimonials-quote">
+              <Quote />
+            </div>
+
+            {TESTIMONIALS.map((item, index) => (
+              <div
+                key={index}
+                className={`fm-st-testimonial-row ${
+                  index !== TESTIMONIALS.length - 1 ? "with-border" : ""
+                }`}
               >
-                <blockquote className="tm-quote">
-                  <p id={`tm-quote-title-${i}`} className="tm-quote-text">
-                    “{t.quote}”
-                  </p>
-                </blockquote>
+                {/* LEFT */}
+                <div className="fm-st-testimonial-user">
+                  <h4>{item.name}</h4>
 
-                <figcaption className="tm-caption">
-                  <div
-                    className="tm-avatar"
-                    role="img"
-                    aria-label={`Avatar of ${t.name}`}
-                    style={{
-                      backgroundImage: `linear-gradient(135deg, ${g1}, ${g2})`,
-                      color: fg,
-                      boxShadow: `0 6px 18px rgba(8,112,186,0.12), inset 0 -6px 18px rgba(0,0,0,0.02)`,
-                    }}
-                  >
-                    <span className="tm-initials">{initials}</span>
-                    <span className="tm-avatar-ring" aria-hidden />
-                  </div>
+                  <span>
+                    {item.role} • {item.company}
+                  </span>
 
-                  <div className="tm-meta">
-                    <div className="tm-name">{t.name}</div>
-                    <div className="tm-role">{t.role}</div>
+                  <div className="fm-st-testimonial-stars">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} fill="currentColor" />
+                    ))}
                   </div>
-                </figcaption>
-              </figure>
-            );
-          })}
+                </div>
+
+                {/* DIVIDER */}
+                <div className="fm-st-testimonial-divider" />
+
+                {/* RIGHT */}
+                <p className="fm-st-testimonial-text">“{item.text}”</p>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

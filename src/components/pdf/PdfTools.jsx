@@ -16,7 +16,9 @@ export default function PdfTools() {
     <section className="fm-pdf">
       {/* HEADER */}
       <div className="fm-pdf-header">
-        <h1>PDF Tools</h1>
+        <h1>
+          PDF <span className="fm-st-highlight">Tools</span>
+        </h1>
 
         <p>
           Convert, compress, merge, split, and manage PDF files directly in your

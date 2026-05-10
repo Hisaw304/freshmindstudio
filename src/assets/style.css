@@ -902,6 +902,14 @@ body {
   color: var(--fm-st-text-muted);
   max-width: 700px;
 }
+.fm-st-highlight {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 14px;
+  background: var(--fm-st-primary);
+  color: var(--fm-st-secondary);
+  line-height: 1.1;
+}
 
 /* ========================= */
 /* GRID */

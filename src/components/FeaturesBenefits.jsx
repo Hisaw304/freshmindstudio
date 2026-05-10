@@ -57,7 +57,13 @@ export default function FeaturesBenefits() {
             <span>Features & Benefits</span>
           </div>
 
-          <h2>Built for speed, simplicity, and modern creative workflows</h2>
+          <h2>
+            Built for{" "}
+            <span className="fm-st-highlight">
+              speed, simplicity, and modern creative
+            </span>{" "}
+            workflows
+          </h2>
 
           <p>
             Focus Studio combines powerful online utilities with a clean user

@@ -174,7 +174,9 @@ export default function CompressorModern() {
 
       {/* HEADER */}
       <div className="fm-st-compressor-header">
-        <h1>Image Compressor</h1>
+        <h1>
+          Image <span className="fm-st-highlight">Compressor</span>
+        </h1>
 
         <p>
           Compress and optimize images directly in your browser while

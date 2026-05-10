@@ -63,9 +63,9 @@ export default function FAQ() {
           <div className="fm-st-faq-badge">
             <span>Frequently Asked Questions</span>
           </div>
-
           <h2>
-            Everything you need to know about <span>Focus Studio</span>
+            Everything you need to know about{" "}
+            <span className="fm-st-highlight">Focus Studio</span>
           </h2>
 
           <p>

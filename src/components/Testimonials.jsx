@@ -60,7 +60,12 @@ export default function Testimonials() {
             <span>Testimonials</span>
           </div>
 
-          <h2>Trusted by creators, teams, and growing businesses</h2>
+          <h2>
+            Trusted by{" "}
+            <span className="fm-st-highlight">
+              creators, teams, and growing businesses
+            </span>
+          </h2>
 
           <p>
             Focus Studio is designed to help modern teams and creators work

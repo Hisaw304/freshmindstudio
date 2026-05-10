@@ -413,7 +413,9 @@ export default function RemoverModern() {
 
       {/* HEADER */}
       <div className="fm-rm-header">
-        <h1>Background Remover</h1>
+        <h1>
+          Backgroud<span className="fm-st-highlight">Remover</span>
+        </h1>
 
         <p>
           Upload an image and instantly remove the background with AI-powered

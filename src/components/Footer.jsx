@@ -69,34 +69,30 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* CONTACT CARD */}
-        <div className="fm-st-footer-contact">
-          <div className="fm-st-footer-contact-card">
-            <h4>Get In Touch</h4>
+        {/* NEWSLETTER */}
+        <div className="fm-st-footer-newsletter">
+          <div className="fm-st-footer-newsletter-card">
+            <span className="fm-st-footer-newsletter-badge">Stay Updated</span>
 
-            <div className="fm-st-footer-contact-item">
-              <Mail size={18} />
-              <span>hello@focusstudio.com</span>
-            </div>
+            <h4>
+              Get product updates, new tools, and creative resources directly in
+              your inbox.
+            </h4>
 
-            <div className="fm-st-footer-contact-item">
-              <Phone size={18} />
-              <span>+1 (860) 821-3853</span>
-            </div>
+            <form className="fm-st-footer-newsletter-form">
+              <input type="email" placeholder="Enter your email" />
 
-            <div className="fm-st-footer-contact-item">
-              <MapPin size={18} />
-              <span>Laconia, New Hampshire</span>
-            </div>
+              <button type="submit">Subscribe</button>
+            </form>
 
-            <a href="/contact" className="fm-st-footer-btn">
-              Start a Project
-              <ArrowUpRight size={18} />
-            </a>
+            <p>No spam. Just product updates and useful creative tools.</p>
           </div>
         </div>
       </div>
-
+      {/* BIG BRAND */}
+      <div className="fm-st-footer-brand-large">
+        FOCUS <span>STUDIO</span>
+      </div>
       {/* BOTTOM */}
       <div className="fm-st-footer-bottom">
         <p>© 2026 Focus Studio. All rights reserved.</p>

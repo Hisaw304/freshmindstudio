@@ -3,7 +3,7 @@ import { Star, Quote } from "lucide-react";
 
 const TESTIMONIALS = [
   {
-    name: "Marcus Lee",
+    name: "Marcus Piers",
     role: "Creative Director",
     company: "Northline Media",
     text: "Focus Studio completely simplified our workflow. The image tools are fast, reliable, and incredibly easy to use. What impressed us most was how clean and modern the experience feels compared to most online utility platforms.",
@@ -31,7 +31,7 @@ const TESTIMONIALS = [
   },
 
   {
-    name: "Ethan Cole",
+    name: "Adams Cole",
     role: "Product Designer",
     company: "PixelForge",
     text: "As someone who works with visuals daily, having fast browser-based utilities makes a huge difference. Focus Studio feels modern, responsive, and refreshingly uncluttered.",

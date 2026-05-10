@@ -10,6 +10,7 @@ import ContactPage from "../components/Contact";
 import Contact from "../components/Contact";
 import PdfTools from "../components/pdf/PdfTools";
 import FeaturesBenefits from "../components/FeaturesBenefits";
+import FooterCta from "../components/FooterCta";
 
 const Home = () => {
   return (
@@ -24,6 +25,7 @@ const Home = () => {
       {/* <Pricing /> */}
       <FAQ />
       <Contact />
+      <FooterCta />
     </div>
   );
 };

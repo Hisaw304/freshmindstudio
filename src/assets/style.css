@@ -394,39 +394,27 @@ body {
 
 .fm-st-footer-newsletter-card {
   padding: 30px;
-
   border-radius: 28px;
-
   background: rgba(255, 255, 255, 0.03);
-
   border: 1px solid var(--fm-st-border);
-
   backdrop-filter: blur(10px);
 }
 
 .fm-st-footer-newsletter-badge {
   display: inline-flex;
-
   padding: 10px 16px;
-
   border-radius: 999px;
-
   background: rgba(255, 215, 0, 0.12);
-
   border: 1px solid rgba(255, 215, 0, 0.22);
-
   color: #b58900;
-
   font-size: 13px;
   font-weight: 700;
 }
 
 .fm-st-footer-newsletter-card h4 {
   margin-top: 22px;
-
   font-size: 24px;
   line-height: 1.5;
-
   color: var(--fm-st-text);
 
   font-weight: 700;
@@ -434,42 +422,28 @@ body {
 
 .fm-st-footer-newsletter-form {
   margin-top: 26px;
-
   display: flex;
   gap: 12px;
 }
 
 .fm-st-footer-newsletter-form input {
   flex: 1;
-
   height: 56px;
-
   border-radius: 16px;
-
   border: 1px solid var(--fm-st-border);
-
   background: rgba(255, 255, 255, 0.03);
-
   padding: 0 18px;
-
   color: var(--fm-st-text);
-
   outline: none;
 }
 
 .fm-st-footer-newsletter-form button {
   height: 56px;
-
   padding: 0 22px;
-
   border-radius: 16px;
-
   background: var(--fm-st-primary);
-
   color: var(--fm-st-black);
-
   font-weight: 700;
-
   transition: 0.3s ease;
 }
 
@@ -560,21 +534,28 @@ body {
 @media (max-width: 768px) {
   .fm-st-footer-newsletter-form {
     flex-direction: column;
+    width: 100%;
   }
 
+  .fm-st-footer-newsletter-form input,
   .fm-st-footer-newsletter-form button {
     width: 100%;
   }
 
+  .fm-st-footer-newsletter-form input {
+    min-height: 58px;
+    font-size: 16px;
+  }
+
+  .fm-st-footer-newsletter-form button {
+    min-height: 58px;
+  }
+
   .fm-st-footer-brand-large {
     margin-top: 90px;
-
     text-align: left;
-
     font-size: clamp(56px, 18vw, 110px);
-
     line-height: 0.95;
-
     letter-spacing: -4px;
   }
 

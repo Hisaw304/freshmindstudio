@@ -24,7 +24,7 @@ const Home = () => {
       <Testimonials />
       {/* <Pricing /> */}
       <FAQ />
-      <Contact />
+      {/* <Contact /> */}
       <FooterCta />
     </div>
   );

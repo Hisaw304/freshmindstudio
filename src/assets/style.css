@@ -1317,11 +1317,9 @@ body {
 
 .fm-st-faq-header h2 {
   margin-top: 24px;
-
   font-size: clamp(38px, 5vw, 64px);
   line-height: 1.05;
   letter-spacing: -2px;
-
   color: var(--fm-st-text);
   font-weight: 900;
 }
@@ -1768,6 +1766,274 @@ body {
   .fm-st-testimonial-text {
     font-size: 15px;
     line-height: 1.8;
+  }
+}
+
+/* =========================
+   STATS SECTION
+========================= */
+
+.fm-st-stats {
+  padding: 120px 24px;
+
+  overflow: hidden;
+
+  background: var(--fm-st-surface);
+}
+
+.fm-st-stats-container {
+  max-width: 1300px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+
+  gap: 70px;
+
+  align-items: center;
+}
+
+/* =========================
+   LEFT
+========================= */
+
+.fm-st-section-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.28);
+}
+
+.fm-st-section-tag span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fm-st-secondary);
+  letter-spacing: 0.3px;
+}
+
+.fm-st-stats-left h2 {
+  margin-top: 24px;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -2px;
+  font-weight: 900;
+  color: var(--fm-st-text);
+}
+
+.fm-st-stats-left p {
+  margin-top: 24px;
+
+  max-width: 680px;
+
+  font-size: 17px;
+  line-height: 1.9;
+
+  color: var(--fm-st-text-muted);
+}
+
+/* =========================
+   STATS GRID
+========================= */
+
+.fm-st-stats-grid {
+  margin-top: 48px;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.fm-st-stat-card {
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 220px;
+
+  padding: 32px;
+
+  border-radius: 30px;
+
+  transition: 0.35s ease;
+}
+
+.fm-st-stat-card:hover {
+  transform: translateY(-6px);
+}
+
+/* =========================
+   CARD BACKGROUNDS
+========================= */
+
+.fm-st-stat-card-yellow {
+  background: linear-gradient(135deg, #ffd84d 0%, #f6c400 100%);
+
+  color: #111;
+}
+
+.fm-st-stat-card-dark {
+  background: linear-gradient(135deg, #171717 0%, #2a2a2a 100%);
+
+  color: #fff;
+}
+
+.fm-st-stat-card-light {
+  background: linear-gradient(135deg, #f8f8f8 0%, #ececec 100%);
+
+  color: #111;
+}
+
+.fm-st-stat-card-gray {
+  background: linear-gradient(135deg, #343434 0%, #474747 100%);
+
+  color: #fff;
+}
+
+/* =========================
+   CARD TEXT
+========================= */
+
+.fm-st-stat-card h3 {
+  font-size: clamp(42px, 5vw, 70px);
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  letter-spacing: -3px;
+}
+
+.fm-st-stat-card p {
+  margin-top: 18px;
+
+  max-width: 220px;
+
+  font-size: 16px;
+  line-height: 1.7;
+
+  opacity: 0.82;
+}
+
+/* =========================
+   RIGHT
+========================= */
+
+.fm-st-stats-right {
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+
+  overflow: hidden;
+}
+
+/* =========================
+   SWIPER
+========================= */
+
+.fm-st-stats-swiper {
+  width: 100%;
+
+  max-width: 520px;
+
+  overflow: hidden;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+.fm-st-stats-image {
+  width: 100%;
+
+  border-radius: 36px;
+
+  overflow: hidden;
+
+  background: #111;
+
+  border: 1px solid var(--fm-st-border);
+
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+.fm-st-stats-image img {
+  width: 100%;
+
+  height: 720px;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: top center;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1100px) {
+  .fm-st-stats-container {
+    grid-template-columns: 1fr;
+
+    gap: 60px;
+  }
+
+  .fm-st-stats-right {
+    justify-content: center;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .fm-st-stats {
+    padding: 100px 20px;
+  }
+
+  /* KEEP 2 CARDS SIDE BY SIDE */
+  .fm-st-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+  }
+
+  .fm-st-stat-card {
+    min-height: 150px;
+
+    padding: 22px;
+
+    border-radius: 22px;
+  }
+
+  .fm-st-stat-card h3 {
+    font-size: 36px;
+
+    letter-spacing: -2px;
+  }
+
+  .fm-st-stat-card p {
+    margin-top: 12px;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+  }
+
+  .fm-st-stats-image img {
+    height: 560px;
   }
 }
 /* ========================= */

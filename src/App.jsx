@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ContactPage from "./pages/ContactPage";
+import Tools from "./pages/Tools";
 // import CryptoTipModal from "./components/CryptoTipModal";
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/tools" element={<Tools />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>

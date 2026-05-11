@@ -2272,9 +2272,7 @@ body {
 
 .fm-st-about-hero h1 {
   margin-top: 28px;
-
   font-size: clamp(56px, 8vw, 120px);
-
   line-height: 0.95;
 
   letter-spacing: -5px;
@@ -2325,6 +2323,156 @@ body {
   }
 
   .fm-st-about-hero p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+}
+/* =========================
+   TOOLS HERO
+========================= */
+
+.fm-st-tools-hero {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 80px 24px 90px;
+
+  background-image: url("../assets/about-image.jpg");
+  background-size: cover;
+  background-position: center;
+
+  isolation: isolate;
+}
+
+/* =========================
+   DARK OVERLAY
+========================= */
+
+.fm-st-tools-hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.65)
+  );
+
+  z-index: 1;
+}
+
+/* =========================
+   GRID LINES
+========================= */
+
+.fm-st-tools-hero-grid {
+  position: absolute;
+  inset: 0;
+
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+
+  background-size: 50px 50px;
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.fm-st-tools-hero-container {
+  position: relative;
+  z-index: 3;
+
+  max-width: 1300px;
+
+  margin: 0 auto;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.fm-st-tools-hero-content {
+  max-width: 850px;
+}
+
+/* =========================
+   BADGE
+========================= */
+
+.fm-st-tools-hero .fm-st-about-hero-badge {
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(10px);
+}
+
+.fm-st-tools-hero .fm-st-about-hero-badge span {
+  color: #fff;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.fm-st-tools-hero h1 {
+  margin-top: 28px;
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: 0.95;
+  letter-spacing: -5px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.fm-st-tools-hero h1 span {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 22px;
+  background: var(--fm-st-primary);
+  color: var(--fm-st-secondary);
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.fm-st-tools-hero p {
+  margin-top: 30px;
+  max-width: 720px;
+  font-size: 18px;
+  line-height: 1.9;
+
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .fm-st-tools-hero {
+    padding: 60px 20px 70px;
+  }
+
+  .fm-st-tools-hero h1 {
+    line-height: 1;
+    letter-spacing: -3px;
+  }
+
+  .fm-st-tools-hero h1 span {
+    margin-top: 10px;
+  }
+
+  .fm-st-tools-hero p {
     font-size: 16px;
     line-height: 1.8;
   }

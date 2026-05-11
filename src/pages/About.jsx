@@ -1,5 +1,6 @@
 import React from "react";
 import AboutSection from "../components/AboutSection";
+import FooterCta from "../components/FooterCta";
 
 const About = () => {
   return (
@@ -30,6 +31,7 @@ const About = () => {
           </div>
         </div>
         <AboutSection />
+        <FooterCta />
       </section>
     </div>
   );

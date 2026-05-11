@@ -1,4 +1,5 @@
 import React from "react";
+import FooterCta from "../components/FooterCta";
 
 const ContactPage = () => {
   return (
@@ -25,6 +26,7 @@ const ContactPage = () => {
           </div>
         </div>
       </section>
+      <FooterCta />
     </div>
   );
 };

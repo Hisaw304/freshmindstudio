@@ -29,7 +29,7 @@ body {
 /* ========================= */
 
 .fm-st-navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 11999;
   width: 100%;
@@ -814,7 +814,7 @@ body {
   overflow: hidden;
   display: flex;
   align-items: center;
-  padding: 100px 24px 160px;
+  padding: 30px 24px 60px;
   background: var(--fm-st-body);
 }
 
@@ -1094,7 +1094,7 @@ body {
 
 @media (max-width: 768px) {
   .fm-st-hero {
-    padding: 130px 20px 180px;
+    padding: 30px 20px 90px;
   }
 
   .fm-st-floating-card {

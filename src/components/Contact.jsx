@@ -258,348 +258,144 @@ export default function Contact({
   };
 
   return (
-    <main className="cm-roots">
-      <div aria-live="polite" ref={liveRef} className="sr-only" />
-
-      {/* subtle background accents */}
-      <div className="cm-bg-accents" aria-hidden />
-
-      <div className="cm-containers">
-        <div className="cm-grids">
-          {/* FORM */}
-          <section
-            aria-labelledby="contact-title"
-            className="cm-cardss cm-forms"
-          >
-            <div className="cm-heds">
-              <div className="cm-eyebrows">
-                <span className="cm-dots" aria-hidden />
-                Get in touch
+    <section className="fm-st-contact">
+      <div className="fm-st-contact-container">
+        <div className="fm-st-contact-grid">
+          {/* FORM SIDE */}
+          <div className="fm-st-contact-card fm-st-contact-form-card">
+            {/* HEADER */}
+            <div className="fm-st-contact-header">
+              <div className="fm-st-section-tag">
+                <span>Get in touch</span>
               </div>
 
-              <h1 id="contact-title" className="cm-titles ">
-                Start your project
-              </h1>
-              <p className="cm-subs">
-                Tell me about your project and I'll reply within 1–2 business
-                days. Prefer a call? Leave your phone number in the message.
+              <h2>
+                Start your next
+                <span className="fm-st-highlight"> creative project</span>
+              </h2>
+
+              <p>
+                Tell us about your project, idea, or workflow needs. We’ll get
+                back to you as soon as possible with the best solution.
               </p>
             </div>
 
-            {/* status / toast */}
-            <div className="cm-statuss">
-              {error && (
-                <div role="alert" className="cm-alerts cm-alert-errors">
-                  {error}
+            {/* FORM */}
+            <form className="fm-st-contact-form">
+              {/* ROW */}
+              <div className="fm-st-contact-row">
+                <div className="fm-st-contact-group">
+                  <label>Name</label>
+                  <input type="text" placeholder="Aaron Joel" />
                 </div>
-              )}
-              {toast && (
-                <div role="status" className="cm-alerts cm-alert-infos">
-                  {toast}
+
+                <div className="fm-st-contact-group">
+                  <label>Email</label>
+                  <input type="email" placeholder="aaronjoel@example.com" />
                 </div>
-              )}
-            </div>
-
-            <form onSubmit={onSubmit} className="cm-form-bodys" noValidate>
-              <div className="cm-rows cm-twos">
-                <label className="cm-fields">
-                  <span className="cm-labels">
-                    Name{" "}
-                    <span aria-hidden className="cm-requireds">
-                      *
-                    </span>
-                  </span>
-                  <input
-                    className="cm-inputs"
-                    value={form.name}
-                    onChange={(e) => setField("name", e.target.value)}
-                    required
-                    aria-required
-                  />
-                </label>
-
-                <label className="cm-fields">
-                  <span className="cm-labels">
-                    Email{" "}
-                    <span aria-hidden className="cm-requireds">
-                      *
-                    </span>
-                  </span>
-                  <input
-                    className="cm-inputs"
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setField("email", e.target.value)}
-                    required
-                    aria-required
-                  />
-                </label>
               </div>
 
-              <div className="cm-rows cm-twos">
-                <label className="cm-fields">
-                  <span className="cm-labels">Company (optional)</span>
-                  <input
-                    className="cm-inputs"
-                    value={form.company}
-                    onChange={(e) => setField("company", e.target.value)}
-                  />
-                </label>
+              {/* ROW */}
+              <div className="fm-st-contact-row">
+                <div className="fm-st-contact-group">
+                  <label>Company</label>
+                  <input type="text" placeholder="Your company" />
+                </div>
 
-                <label className="cm-fields">
-                  <span className="cm-labels">Service</span>
-                  <select
-                    className="cm-inputs"
-                    value={form.service}
-                    onChange={(e) => setField("service", e.target.value)}
-                  >
-                    <option>Website (Landing/Marketing)</option>
-                    <option>E-commerce store</option>
-                    <option>Web app / Dashboard</option>
-                    <option>Portfolio / Personal site</option>
-                    <option>Integrations / API</option>
-                    <option>Other / Custom</option>
+                <div className="fm-st-contact-group">
+                  <label>Service</label>
+                  <select>
+                    <option>General Inquiry</option>
+                    <option>Website Design</option>
+                    <option>Full Stack Development</option>
+                    <option>SaaS Platform</option>
+                    <option>UI/UX Design</option>
+                    <option>Creative Collaboration</option>
+                    <option>Business Partnership</option>
+                    <option>Custom Project</option>
                   </select>
-                </label>
+                </div>
               </div>
 
-              <label className="cm-fields">
-                <span className="cm-labels">Budget (optional)</span>
-                <select
-                  className="cm-inputs"
-                  value={form.budget}
-                  onChange={(e) => setField("budget", e.target.value)}
-                >
-                  <option value="">Select budget</option>
-                  <option value="<$500">&lt;$500</option>
-                  <option value="$500–$2k">$500–$2k</option>
-                  <option value="$2k–$10k">$2k–$10k</option>
-                  <option value=">$10k">&gt;$10k</option>
-                </select>
-              </label>
+              {/* MESSAGE */}
+              <div className="fm-st-contact-group">
+                <label>Message</label>
 
-              <label className="cm-fields">
-                <span className="cm-labels">
-                  Message{" "}
-                  <span aria-hidden className="cm-requireds">
-                    *
-                  </span>
-                </span>
                 <textarea
-                  className="cm-inputs cm-textareas"
-                  value={form.message}
-                  onChange={(e) => setField("message", e.target.value)}
-                  required
+                  rows="7"
+                  placeholder="Tell us about your project..."
                 />
-              </label>
+              </div>
 
-              {/* attachment dropzone */}
-              <div
-                ref={dropRef}
-                onDragOver={onDragOver}
-                onDragLeave={onDragLeave}
-                onDrop={onDrop}
-                data-drag="false"
-                className="cm-dropzoness"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    fileRef.current?.click();
-                  }
-                }}
-                aria-label="Attachment area - drop file or press Enter to choose"
-              >
-                <input
-                  ref={fileRef}
-                  type="file"
-                  className="sr-only"
-                  onChange={(e) => handleFileChange(e.target.files)}
-                />
-                <div className="cm-drop-inners">
-                  <div className="cm-drop-texts">
-                    Drag & drop an image or click to choose (max{" "}
-                    {formatBytes(MAX_ATTACHMENT_BYTES)})
-                  </div>
-                  <div className="cm-drop-actions">
-                    <button
-                      type="button"
-                      className="cm-btn-ghosts"
-                      onClick={() => fileRef.current?.click()}
-                    >
-                      Choose file
-                    </button>
-                    {attachmentPreview && (
-                      <button
-                        type="button"
-                        className="cm-btn-links"
-                        onClick={removeAttachment}
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
-                </div>
+              {/* DROPZONE */}
+              <div className="fm-st-contact-upload">
+                <div className="fm-st-contact-upload-inner">
+                  <h4>Drop files here</h4>
 
-                <div className="cm-drop-previews">
-                  {attachmentPreview ? (
-                    <div className="cm-preview-rows">
-                      {attachmentPreview.dataUrl ? (
-                        <img
-                          src={attachmentPreview.dataUrl}
-                          alt={attachmentPreview.name}
-                          className="cm-thumbs"
-                        />
-                      ) : (
-                        <div className="cm-thumbs cm-thumb-files">
-                          {attachmentPreview.name.split(".").pop()}
-                        </div>
-                      )}
-                      <div className="cm-preview-metas">
-                        <div className="cm-preview-names">
-                          {attachmentPreview.name}
-                        </div>
-                        <div className="cm-preview-sizes">
-                          {formatBytes(attachmentPreview.size)}
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
+                  <p>
+                    Upload screenshots, references, or project assets to help us
+                    understand your request.
+                  </p>
+
+                  <button type="button">Choose File</button>
                 </div>
               </div>
 
-              {/* actions */}
-              <div className="cm-actions">
-                <button
-                  type="submit"
-                  className="cm-ctas"
-                  disabled={sending}
-                  aria-busy={sending}
-                >
-                  {sending ? (
-                    <span className="cm-cta-inners">
-                      <svg
-                        className="cm-spinners"
-                        viewBox="0 0 24 24"
-                        aria-hidden
-                      >
-                        <circle
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeOpacity="0.15"
-                          fill="none"
-                        />
-                        <path
-                          d="M22 12a10 10 0 00-10-10"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                      Sending…
-                    </span>
-                  ) : (
-                    "Send message"
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  className="cm-btn-outlines"
-                  onClick={() => {
-                    setForm({
-                      name: "",
-                      email: "",
-                      company: "",
-                      service: "Website (Landing/Marketing)",
-                      budget: "",
-                      message: "",
-                    });
-                    removeAttachment();
-                    setError(null);
-                  }}
-                  disabled={sending}
-                >
-                  Reset
-                </button>
-
-                {uploadPercent > 0 && (
-                  <div className="cm-progresss" aria-hidden>
-                    <div
-                      className="cm-progress-bars"
-                      style={{ width: `${uploadPercent}%` }}
-                    />
-                    <div className="cm-progress-labels">{uploadPercent}%</div>
-                  </div>
-                )}
+              {/* ACTIONS */}
+              <div className="fm-st-contact-actions">
+                <button className="fm-st-contact-primary">Send Message</button>
               </div>
             </form>
-          </section>
+          </div>
 
-          {/* DETAILS */}
-          <aside className="cm-sides">
-            <div className="cm-cardss cm-side-cards">
-              <h3 className="cm-side-titles">Contact details</h3>
+          {/* RIGHT SIDE */}
+          <aside className="fm-st-contact-sidebar">
+            {/* CARD */}
+            <div className="fm-st-contact-card">
+              <h3>Contact Information</h3>
 
-              <ul className="cm-info-lists">
-                <li>
-                  <strong>Email:</strong>{" "}
-                  <a href={`mailto:${ownerEmail}`}>{ownerEmail}</a>
-                </li>
-                <li>
-                  <strong>Location:</strong> {ownerLocation}
-                </li>
-                <li>
-                  <strong>Response time:</strong> 1–2 business days
-                </li>
-              </ul>
+              <div className="fm-st-contact-info-list">
+                <div className="fm-st-contact-info-item">
+                  <span>Email</span>
+                  <p>hello@focusstudio.com</p>
+                </div>
 
-              <hr className="cm-dividers" />
+                <div className="fm-st-contact-info-item">
+                  <span>Location</span>
+                  <p>Remote • Worldwide</p>
+                </div>
 
-              <h4 className="cm-side-subs">
-                If you want to develop any kind of website
-              </h4>
-              <p className="cm-side-bios">{ownerBio}</p>
-
-              <div className="cm-socials">
-                <a
-                  href="https://twitter.com/yourhandle"
-                  aria-label="Twitter"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaTwitter />
-                </a>
-                <a
-                  href="https://linkedin.com/in/yourhandle"
-                  aria-label="LinkedIn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaLinkedin />
-                </a>
-                <a
-                  href="https://github.com/yourhandle"
-                  aria-label="GitHub"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGithub />
-                </a>
+                <div className="fm-st-contact-info-item">
+                  <span>Response Time</span>
+                  <p>Usually within 24 hours</p>
+                </div>
               </div>
             </div>
 
-            <div className="cm-notes">
-              By contacting me you agree to share the project details required
-              to provide a quote. Attachments will never be published.
+            {/* CARD */}
+            <div className="fm-st-contact-card">
+              <h3>What we help with</h3>
+              <ul className="fm-st-contact-list">
+                <li>Modern SaaS platforms</li>
+
+                <li>Creative online tools</li>
+
+                <li>Fast, responsive, conversion-focused websites</li>
+
+                <li>Responsive UI systems</li>
+
+                <li>Full-stack web development</li>
+
+                <li>Custom dashboards & internal utilities</li>
+
+                <li>Scalable UI systems for growing brands</li>
+
+                <li>Website updates, redesigns & revamps</li>
+              </ul>
             </div>
           </aside>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

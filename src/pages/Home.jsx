@@ -24,10 +24,11 @@ const Home = () => {
       <StatsSection />
       <AboutSection />
       <FeaturesBenefits />
+      <Pricing />
       <Testimonials />
       {/* <Pricing /> */}
       <FAQ />
-      {/* <Contact /> */}
+      <Contact />
       <FooterCta />
     </div>
   );

@@ -1,211 +1,128 @@
-// src/components/PricingModern.jsx
-import React, { useMemo, useState } from "react";
+import React from "react";
 
-/* ----- data ----- */
-const TIERS = [
-  {
-    id: "free",
-    name: "Free",
-    monthly: 0,
-    features: [
-      "Basic compression",
-      "Single image at a time",
-      "Watermarked previews",
-      "Community support",
-    ],
-    cta: { label: "Get started", href: "#compressor" },
-  },
-  {
-    id: "pro",
-    name: "Pro",
-    monthly: 9,
-    features: [
-      "Faster compression presets",
-      "High-res transparent PNG",
-      "Priority queueing",
-      "Email support",
-    ],
-    cta: { label: "Upgrade to Pro", href: "#pricing" },
-    recommended: true,
-  },
-  {
-    id: "team",
-    name: "Team",
-    monthly: 29,
-    features: [
-      "Batch processing",
-      "Team seats & access controls",
-      "S3 / webhook integrations",
-      "Priority SLA & onboarding",
-    ],
-    cta: { label: "Contact sales", href: "/contact" },
-  },
-];
-
-function formatPrice(amount) {
-  if (amount === 0) return "Free";
-  if (Number.isInteger(amount)) return `$${amount}`;
-  return `$${amount.toFixed(2)}`;
-}
-
-/* small icon used for feature list */
-const Check = ({ className = "w-4 h-4" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-    <path
-      d="M20 6L9 17l-5-5"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-export default function PricingModern({ defaultCycle = "monthly" }) {
-  const [cycle, setCycle] = useState(defaultCycle); // "monthly" | "yearly"
-
-  const tiers = useMemo(
-    () =>
-      TIERS.map((t) => {
-        const monthly = t.monthly;
-        const yearly = +(monthly * 12 * 0.8); // 20% off for yearly
-        return { ...t, display: { monthly, yearly } };
-      }),
-    []
-  );
-
-  const savingsPercent = 20;
-  const prefersReduced =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+const Pricing = () => {
   return (
-    <section id="pricing" className="pricing-section">
-      <div className="pricing-inner">
-        <div className="pricing-header">
-          <div className="eyebrow">
-            <span className="dot" /> Pricing
+    <div>
+      <section className="fm-st-pricing">
+        <div className="fm-st-pricing-container">
+          {/* HEADER */}
+          <div className="fm-st-pricing-header">
+            <span className="fm-st-features-badge">Simple Pricing</span>
+
+            <h2>
+              Flexible plans for creators,
+              <span className="fm-st-highlight"> freelancers & businesses</span>
+            </h2>
+
+            <p>
+              Start free and upgrade as your workflow grows. Focus Studio is
+              designed to scale with creators, teams, and businesses of every
+              size.
+            </p>
           </div>
 
-          <h2 className="pricing-title">Simple pricing. No surprises.</h2>
-          <p className="pricing-sub">
-            Monthly or discounted yearly billing — choose what fits your
-            workflow.
-          </p>
+          {/* CARDS */}
+          <div className="fm-st-pricing-grid">
+            {/* STARTER */}
+            <div className="fm-st-price-card fm-st-price-card-starter">
+              <div className="fm-st-price-top">
+                <span className="fm-st-price-label">Starter</span>
 
-          {/* toggle */}
-          <div
-            className="billing-toggle"
-            role="tablist"
-            aria-label="Billing cycle"
-          >
-            <button
-              className={`toggle-button ${cycle === "monthly" ? "active" : ""}`}
-              aria-pressed={cycle === "monthly"}
-              onClick={() => setCycle("monthly")}
-            >
-              Monthly
-            </button>
+                <h3>Free</h3>
 
-            <div className="toggle-or">or</div>
+                <p>
+                  Perfect for individuals testing tools and handling lightweight
+                  projects.
+                </p>
+              </div>
 
-            <button
-              className={`toggle-button ${cycle === "yearly" ? "active" : ""}`}
-              aria-pressed={cycle === "yearly"}
-              onClick={() => setCycle("yearly")}
-            >
-              Yearly{" "}
-              <span className="savings-pill">Save {savingsPercent}%</span>
-            </button>
-          </div>
-        </div>
+              <div className="fm-st-price-line" />
 
-        {/* tiers grid */}
-        <div className="tiers-grid" role="list" aria-label="Pricing tiers">
-          {tiers.map((t, idx) => {
-            const price =
-              cycle === "monthly" ? t.display.monthly : t.display.yearly;
-            const showPriceLabel =
-              price === 0
-                ? "Free"
-                : cycle === "monthly"
-                ? `${formatPrice(price)}/mo`
-                : `${formatPrice(price)}/yr`;
-            // show the monthly-equivalent for yearly plans (with two decimals)
-            const monthlyEquivalent =
-              cycle === "yearly" && price !== 0
-                ? `$${(price / 12).toFixed(2)}/mo`
-                : null;
+              <ul className="fm-st-price-features">
+                <li>✓ Image compression tools</li>
+                <li>✓ Background remover access</li>
+                <li>✓ Basic PDF utilities</li>
+                <li>✓ Standard processing speed</li>
+                <li>✓ Limited daily usage</li>
+              </ul>
 
-            return (
-              <article
-                key={t.id}
-                role="listitem"
-                className={`tier-card ${
-                  t.recommended ? "tier-recommended" : ""
-                }`}
-                aria-labelledby={`tier-${t.id}`}
-                tabIndex={0}
-                style={{ transition: prefersReduced ? "none" : undefined }}
-              >
-                {/* accent strip */}
-                <div className="tier-top" aria-hidden />
+              <a href="/" className="fm-st-price-btn">
+                Get Started
+              </a>
+            </div>
 
-                {t.recommended && <div className="ribbon">Most popular</div>}
+            {/* PRO */}
+            <div className="fm-st-price-card fm-st-price-card-pro">
+              {/* badge */}
+              <div className="fm-st-price-badge">
+                <span>Most Popular</span>
+              </div>
 
-                <h3 id={`tier-${t.id}`} className="tier-name">
-                  {t.name}
+              <div className="fm-st-price-top">
+                <span className="fm-st-price-label">Pro</span>
+
+                <h3>
+                  $19<span>/month</span>
                 </h3>
 
-                <div className="tier-price">
-                  <div className="price-major">
-                    {price === 0 ? "Free" : formatPrice(price)}
-                  </div>
-                  <div className="price-sub">
-                    {price === 0
-                      ? ""
-                      : cycle === "monthly"
-                      ? "/month"
-                      : "/year"}
-                  </div>
-                </div>
+                <p>
+                  Built for freelancers, creators, and growing businesses
+                  needing more power and speed.
+                </p>
+              </div>
 
-                {monthlyEquivalent && (
-                  <div className="monthly-equivalent">
-                    {monthlyEquivalent} billed annually
-                  </div>
-                )}
+              <div className="fm-st-price-line" />
 
-                <ul className="tier-features" aria-hidden={false}>
-                  {t.features.map((f, i) => (
-                    <li key={i} className="feature-item">
-                      <span className="feature-icon" aria-hidden>
-                        <Check className="w-4 h-4" />
-                      </span>
-                      <span className="feature-text">{f}</span>
-                    </li>
-                  ))}
-                </ul>
+              <ul className="fm-st-price-features">
+                <li>✓ Unlimited image processing</li>
+                <li>✓ Faster AI-powered tools</li>
+                <li>✓ Advanced PDF utilities</li>
+                <li>✓ Premium export quality</li>
+                <li>✓ Priority processing</li>
+                <li>✓ Access to upcoming tools</li>
+                <li>✓ Early feature releases</li>
+              </ul>
 
-                <div className="tier-cta">
-                  <a
-                    className={`cta ${
-                      t.recommended ? "cta-primary" : "cta-ghost"
-                    }`}
-                    href={t.cta.href}
-                    aria-label={t.cta.label}
-                  >
-                    {t.cta.label}
-                  </a>
-                </div>
+              <a href="/" className="fm-st-price-btn fm-st-price-btn-primary">
+                Start Pro Plan
+              </a>
+            </div>
 
-                <div className="tier-foot">Cancel anytime.</div>
-              </article>
-            );
-          })}
+            {/* BUSINESS */}
+            <div className="fm-st-price-card fm-st-price-card-business">
+              <div className="fm-st-price-top">
+                <span className="fm-st-price-label">Business</span>
+
+                <h3>
+                  Custom<span>/team</span>
+                </h3>
+
+                <p>
+                  For agencies and businesses managing larger workflows and
+                  teams.
+                </p>
+              </div>
+
+              <div className="fm-st-price-line" />
+
+              <ul className="fm-st-price-features">
+                <li>✓ Team collaboration features</li>
+                <li>✓ Dedicated support</li>
+                <li>✓ API & integrations</li>
+                <li>✓ High-volume processing</li>
+                <li>✓ Priority infrastructure</li>
+                <li>✓ Enterprise-grade security</li>
+              </ul>
+
+              <a href="/" className="fm-st-price-btn">
+                Contact Sales
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
-}
+};
+
+export default Pricing;

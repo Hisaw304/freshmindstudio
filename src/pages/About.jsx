@@ -1,6 +1,7 @@
 import React from "react";
 import AboutSection from "../components/AboutSection";
 import FooterCta from "../components/FooterCta";
+import WhyChooseUs from "../components/WhyChooseUs";
 
 const About = () => {
   return (
@@ -31,6 +32,7 @@ const About = () => {
           </div>
         </div>
         <AboutSection />
+        <WhyChooseUs />
         <FooterCta />
       </section>
     </div>

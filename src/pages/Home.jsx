@@ -12,6 +12,7 @@ import PdfTools from "../components/pdf/PdfTools";
 import FeaturesBenefits from "../components/FeaturesBenefits";
 import FooterCta from "../components/FooterCta";
 import StatsSection from "../components/StatsSection";
+import AboutSection from "../components/AboutSection";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <Remover />
       <PdfTools />
       <StatsSection />
+      <AboutSection />
       <FeaturesBenefits />
       <Testimonials />
       {/* <Pricing /> */}

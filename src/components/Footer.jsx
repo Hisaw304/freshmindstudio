@@ -1,6 +1,5 @@
 // src/components/Footer.jsx
 
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
@@ -53,9 +52,9 @@ export default function Footer() {
           <div className="fm-st-footer-column">
             <h4>Quick Links</h4>
 
-            <a href="#features">Features</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#how-it-works">How It Works</a>
+            <a href="/#features">Features</a>
+            <a href="/#pricing">Pricing</a>
+            <a href="/#faq">Faq</a>
             <a href="#">Privacy Policy</a>
           </div>
 

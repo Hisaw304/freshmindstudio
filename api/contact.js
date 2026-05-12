@@ -1,49 +1,126 @@
+// api/contact.js
+
 import sgMail from "@sendgrid/mail";
+import formidable from "formidable";
+import fs from "fs";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+/* =========================
+   DISABLE BODY PARSER
+========================= */
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+/* =========================
+   HANDLER
+========================= */
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({
+      message: "Method not allowed",
+    });
   }
 
   try {
-    const { name, email, company, service, budget, message, attachments } =
-      req.body;
+    /* =========================
+       PARSE FORM
+    ========================= */
 
-    const formattedAttachments = (attachments || []).map((file) => {
-      // file.content is expected to be a Data URL: "data:image/png;base64,AAAA..."
-      const base64Content = file.content.includes("base64,")
-        ? file.content.split("base64,")[1]
-        : file.content;
-
-      return {
-        content: base64Content,
-        filename: file.filename || "attachment",
-        type: file.type || "application/octet-stream",
-        disposition: "attachment",
-      };
+    const form = formidable({
+      multiples: false,
     });
 
+    const [fields, files] = await form.parse(req);
+
+    const name = fields.name?.[0];
+    const email = fields.email?.[0];
+    const company = fields.company?.[0];
+    const service = fields.service?.[0];
+    const message = fields.message?.[0];
+
+    /* =========================
+       VALIDATION
+    ========================= */
+
+    if (!name || !email || !message) {
+      return res.status(400).json({
+        message: "Missing required fields",
+      });
+    }
+
+    /* =========================
+       ATTACHMENTS
+    ========================= */
+
+    let attachments = [];
+
+    if (files.file?.[0]) {
+      const uploadedFile = files.file[0];
+
+      const fileContent = fs
+        .readFileSync(uploadedFile.filepath)
+        .toString("base64");
+
+      attachments.push({
+        content: fileContent,
+        filename: uploadedFile.originalFilename,
+        type: uploadedFile.mimetype,
+        disposition: "attachment",
+      });
+    }
+
+    /* =========================
+       EMAIL
+    ========================= */
+
     const msg = {
-      to: "fishlymind@gmail.com", // inbox
-      from: "fishlymind@gmail.com", // must be a verified sender in SendGrid
-      subject: `New Contact Form Submission from ${name || "Unknown"}`,
+      to: "hello@focusstudio.com",
+      from: "hello@focusstudio.com",
+
+      subject: `New Contact Submission - ${service}`,
+
       html: `
-        <p><strong>Name:</strong> ${name || "-"}</p>
-        <p><strong>Email:</strong> ${email || "-"}</p>
-        <p><strong>Company:</strong> ${company || "-"}</p>
-        <p><strong>Service:</strong> ${service || "-"}</p>
-        <p><strong>Budget:</strong> ${budget || "-"}</p>
-        <p><strong>Message:</strong><br/>${message || "-"}</p>
+        <div style="font-family: Arial; padding: 20px;">
+          <h2>New Contact Form Submission</h2>
+
+          <p><strong>Name:</strong> ${name}</p>
+
+          <p><strong>Email:</strong> ${email}</p>
+
+          <p><strong>Company:</strong> ${company || "Not provided"}</p>
+
+          <p><strong>Service:</strong> ${service}</p>
+
+          <hr style="margin: 20px 0;" />
+
+          <p><strong>Message:</strong></p>
+
+          <p style="line-height: 1.7;">
+            ${message}
+          </p>
+        </div>
       `,
-      attachments: formattedAttachments,
+
+      attachments,
     };
 
     await sgMail.send(msg);
-    res.status(200).json({ success: true });
-  } catch (err) {
-    console.error("SendGrid error:", err.response?.body || err.message);
-    res.status(500).json({ success: false, error: err.message });
+
+    return res.status(200).json({
+      success: true,
+      message: "Message sent successfully",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Something went wrong",
+    });
   }
 }

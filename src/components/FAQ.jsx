@@ -50,7 +50,7 @@ export default function FAQ() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="fm-st-faq">
+    <section id="faq" className="fm-st-faq">
       <div className="fm-st-faq-container">
         {/* HEADER */}
         <motion.div

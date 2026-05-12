@@ -1,260 +1,103 @@
-import React, { useEffect, useRef, useState } from "react";
-import { fileToDataUrl } from "../../utils/toBase64";
-import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
+import React, { useRef, useState } from "react";
 
-/* ---------- config ---------- */
-const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024; // 4 MB
-const UPLOAD_ENDPOINT = "/api/contact";
+export default function Contact() {
+  const fileRef = useRef(null);
 
-/* ---------- helpers ---------- */
-function formatBytes(bytes) {
-  if (!bytes && bytes !== 0) return "";
-  if (bytes === 0) return "0 B";
-  const k = 1024;
-  const sizes = ["B", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
-}
-const validateEmail = (v) => /^\S+@\S+\.\S+$/.test(v);
-
-function postFormDataWithProgress(url, formData, onProgress) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", url);
-    xhr.withCredentials = false;
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable && typeof onProgress === "function") {
-        onProgress(Math.round((e.loaded / e.total) * 100));
-      }
-    };
-    xhr.onload = () => {
-      try {
-        const json = xhr.responseText ? JSON.parse(xhr.responseText) : {};
-        if (xhr.status >= 200 && xhr.status < 300) resolve(json);
-        else reject({ status: xhr.status, json });
-      } catch (err) {
-        reject(err);
-      }
-    };
-    xhr.onerror = () => reject(new Error("Network error"));
-    xhr.send(formData);
-  });
-}
-
-/* ---------- component ---------- */
-export default function Contact({
-  ownerName = "FreshMind Studio",
-  ownerEmail = "hello@freshmind.studio",
-  ownerLocation = "Remote",
-  ownerBio = "I build fast, accessible websites and web apps using React, Vite, and Tailwind. I focus on performance, good UX, and serverless integrations (Vercel).",
-}) {
   const [form, setForm] = useState({
     name: "",
     email: "",
     company: "",
-    service: "Website (Landing/Marketing)",
-    budget: "",
+    service: "General Inquiry",
     message: "",
   });
 
-  const [attachment, setAttachment] = useState(null);
-  const [attachmentPreview, setAttachmentPreview] = useState(null);
-  const [sending, setSending] = useState(false);
-  const [uploadPercent, setUploadPercent] = useState(0);
-  const [toast, setToast] = useState(null);
-  const [error, setError] = useState(null);
+  const [file, setFile] = useState(null);
 
-  const fileRef = useRef(null);
-  const liveRef = useRef(null);
-  const dropRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!toast) return;
-    const id = setTimeout(() => setToast(null), 4000);
-    return () => clearTimeout(id);
-  }, [toast]);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
-  const setField = (k, v) => setForm((s) => ({ ...s, [k]: v }));
+  /* =========================
+     HANDLE CHANGE
+  ========================= */
 
-  /* file handlers */
-  const handleFileChange = async (files) => {
-    const f = files?.[0];
-    if (!f) return;
-    if (f.size > MAX_ATTACHMENT_BYTES) {
-      setError(
-        `Attachment too big — limit ${formatBytes(MAX_ATTACHMENT_BYTES)}.`
-      );
-      return;
-    }
-    setError(null);
-    setAttachment(f);
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    if (f.type?.startsWith("image/")) {
-      try {
-        const durl = await fileToDataUrl(f);
-        setAttachmentPreview({ name: f.name, size: f.size, dataUrl: durl });
-      } catch (err) {
-        console.warn("preview failed", err);
-        setAttachmentPreview({ name: f.name, size: f.size });
-      }
+  /* =========================
+     FILE
+  ========================= */
+
+  const handleFileChange = (e) => {
+    const selected = e.target.files[0];
+
+    if (selected) {
+      setFile(selected);
     } else {
-      setAttachmentPreview({ name: f.name, size: f.size });
+      setFile(null);
     }
   };
 
-  const removeAttachment = () => {
-    setAttachment(null);
-    setAttachmentPreview(null);
-    if (fileRef.current) fileRef.current.value = null;
-  };
+  /* =========================
+     SUBMIT
+  ========================= */
 
-  /* drag & drop (keyboard accessible) */
-  const onDragOver = (e) => {
-    e.preventDefault();
-    if (dropRef.current) dropRef.current.dataset.drag = "true";
-  };
-  const onDragLeave = (e) => {
-    e.preventDefault();
-    if (dropRef.current) dropRef.current.dataset.drag = "false";
-  };
-  const onDrop = (e) => {
-    e.preventDefault();
-    if (dropRef.current) dropRef.current.dataset.drag = "false";
-    handleFileChange(e.dataTransfer?.files);
-  };
-
-  /* mailto fallback */
-  const fallbackMailto = (payload) => {
-    const subject = encodeURIComponent(
-      `Project inquiry: ${payload.service} — ${payload.name || "No name"}`
-    );
-    const shortMessage = (payload.message || "").slice(0, 1200);
-    let body = `Hi ${ownerName},%0D%0A%0D%0A${encodeURIComponent(
-      shortMessage
-    )}%0D%0A%0D%0A`;
-    body += `Name: ${encodeURIComponent(
-      payload.name || "-"
-    )}%0D%0AEmail: ${encodeURIComponent(payload.email || "-")}%0D%0A`;
-    body += `Company: ${encodeURIComponent(
-      payload.company || "-"
-    )}%0D%0ABudget: ${encodeURIComponent(payload.budget || "-")}%0D%0A`;
-    if (payload.attachmentName)
-      body += `%0D%0AAttachment: ${encodeURIComponent(
-        payload.attachmentName
-      )} (not attached)`;
-    window.location.href = `mailto:${ownerEmail}?subject=${subject}&body=${body}`;
-  };
-
-  async function onSubmit(e) {
-    e?.preventDefault();
-    setError(null);
-    setToast(null);
-
-    if (!form.name?.trim()) return setError("Please enter your name.");
-    if (!validateEmail(form.email))
-      return setError("Please enter a valid email.");
-    if (!form.message?.trim() || form.message.trim().length < 10)
-      return setError("Please include a brief description (10+ characters).");
-
-    setSending(true);
-    setUploadPercent(0);
-
-    const payloadBase = { ...form, time: new Date().toISOString() };
-
-    try {
-      if (attachment) {
-        const fd = new FormData();
-        Object.keys(payloadBase).forEach((k) => fd.append(k, payloadBase[k]));
-        fd.append("attachment", attachment, attachment.name);
-
-        await postFormDataWithProgress(UPLOAD_ENDPOINT, fd, (p) =>
-          setUploadPercent(p)
-        );
-
-        setToast("Message sent — thanks!");
-        setForm({
-          name: "",
-          email: "",
-          company: "",
-          service: "Website (Landing/Marketing)",
-          budget: "",
-          message: "",
-        });
-        removeAttachment();
-        if (liveRef.current) liveRef.current.textContent = "Contact form sent";
-      } else {
-        const res = await fetch(UPLOAD_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payloadBase),
-        });
-
-        if (!res.ok) {
-          console.warn("contact API error", res.status);
-          fallbackMailto(payloadBase);
-          setToast("No server available — opened your mail client.");
-          setForm({
-            name: "",
-            email: "",
-            company: "",
-            service: "Website (Landing/Marketing)",
-            budget: "",
-            message: "",
-          });
-          if (liveRef.current)
-            liveRef.current.textContent = "Mail client opened as fallback";
-        } else {
-          setToast("Message sent — thanks!");
-          setForm({
-            name: "",
-            email: "",
-            company: "",
-            service: "Website (Landing/Marketing)",
-            budget: "",
-            message: "",
-          });
-          if (liveRef.current)
-            liveRef.current.textContent = "Contact form sent";
-        }
-      }
-    } catch (err) {
-      console.warn("submit error", err);
-      try {
-        fallbackMailto({ ...payloadBase, attachmentName: attachment?.name });
-        setToast("Network/server error — opened mail client as fallback.");
-        removeAttachment();
-      } catch (e) {
-        setError("Send failed. Please try again or email directly.");
-      }
-    } finally {
-      setSending(false);
-      setUploadPercent(0);
-    }
-  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. Grab inputs from state
-    const formData = { name, email, company, service, budget, message };
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
-    // 2. Handle attachments (convert File -> base64)
-    const attachments = [];
-    for (const file of selectedFiles) {
-      const base64 = await toBase64(file);
-      attachments.push({
-        content: base64.split(",")[1], // remove "data:...base64,"
-        filename: file.name,
-        type: file.type,
-        disposition: "attachment",
+    try {
+      const body = new FormData();
+
+      body.append("name", form.name);
+      body.append("email", form.email);
+      body.append("company", form.company);
+      body.append("service", form.service);
+      body.append("message", form.message);
+
+      if (file) {
+        body.append("file", file);
+      }
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        body,
       });
-    }
 
-    // 3. Send to API
-    await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...formData, attachments }),
-    });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+
+      setSuccess("Message sent successfully.");
+
+      setForm({
+        name: "",
+        email: "",
+        company: "",
+        service: "General Inquiry",
+        message: "",
+      });
+
+      setFile(null);
+
+      if (fileRef.current) {
+        fileRef.current.value = "";
+      }
+    } catch (err) {
+      setError(err?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -281,17 +124,33 @@ export default function Contact({
             </div>
 
             {/* FORM */}
-            <form className="fm-st-contact-form">
+            <form className="fm-st-contact-form" onSubmit={handleSubmit}>
               {/* ROW */}
               <div className="fm-st-contact-row">
                 <div className="fm-st-contact-group">
                   <label>Name</label>
-                  <input type="text" placeholder="Aaron Joel" />
+
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Aaron Joel"
+                    required
+                  />
                 </div>
 
                 <div className="fm-st-contact-group">
                   <label>Email</label>
-                  <input type="email" placeholder="aaronjoel@example.com" />
+
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="aaronjoel@example.com"
+                    required
+                  />
                 </div>
               </div>
 
@@ -299,19 +158,38 @@ export default function Contact({
               <div className="fm-st-contact-row">
                 <div className="fm-st-contact-group">
                   <label>Company</label>
-                  <input type="text" placeholder="Your company" />
+
+                  <input
+                    type="text"
+                    name="company"
+                    value={form.company}
+                    onChange={handleChange}
+                    placeholder="Your company"
+                  />
                 </div>
 
                 <div className="fm-st-contact-group">
                   <label>Service</label>
-                  <select>
+
+                  <select
+                    name="service"
+                    value={form.service}
+                    onChange={handleChange}
+                  >
                     <option>General Inquiry</option>
+
                     <option>Website Design</option>
+
                     <option>Full Stack Development</option>
+
                     <option>SaaS Platform</option>
+
                     <option>UI/UX Design</option>
+
                     <option>Creative Collaboration</option>
+
                     <option>Business Partnership</option>
+
                     <option>Custom Project</option>
                   </select>
                 </div>
@@ -323,9 +201,21 @@ export default function Contact({
 
                 <textarea
                   rows="7"
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
                   placeholder="Tell us about your project..."
+                  required
                 />
               </div>
+
+              {/* FILE INPUT */}
+              <input
+                type="file"
+                ref={fileRef}
+                onChange={handleFileChange}
+                hidden
+              />
 
               {/* DROPZONE */}
               <div className="fm-st-contact-upload">
@@ -337,13 +227,31 @@ export default function Contact({
                     understand your request.
                   </p>
 
-                  <button type="button">Choose File</button>
+                  <button type="button" onClick={() => fileRef.current.click()}>
+                    Choose File
+                  </button>
+
+                  {file && (
+                    <p className="fm-st-file-name">Selected: {file.name}</p>
+                  )}
                 </div>
               </div>
 
+              {/* SUCCESS */}
+              {success && <div className="fm-st-success">{success}</div>}
+
+              {/* ERROR */}
+              {error && <div className="fm-st-error">{error}</div>}
+
               {/* ACTIONS */}
               <div className="fm-st-contact-actions">
-                <button className="fm-st-contact-primary">Send Message</button>
+                <button
+                  type="submit"
+                  className="fm-st-contact-primary"
+                  disabled={loading}
+                >
+                  {loading ? "Sending..." : "Send Message"}
+                </button>
               </div>
             </form>
           </div>
@@ -357,16 +265,19 @@ export default function Contact({
               <div className="fm-st-contact-info-list">
                 <div className="fm-st-contact-info-item">
                   <span>Email</span>
+
                   <p>hello@focusstudio.com</p>
                 </div>
 
                 <div className="fm-st-contact-info-item">
                   <span>Location</span>
+
                   <p>Remote • Worldwide</p>
                 </div>
 
                 <div className="fm-st-contact-info-item">
                   <span>Response Time</span>
+
                   <p>Usually within 24 hours</p>
                 </div>
               </div>
@@ -375,6 +286,7 @@ export default function Contact({
             {/* CARD */}
             <div className="fm-st-contact-card">
               <h3>What we help with</h3>
+
               <ul className="fm-st-contact-list">
                 <li>Modern SaaS platforms</li>
 

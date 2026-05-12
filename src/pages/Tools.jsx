@@ -3,6 +3,7 @@ import CompressorModern from "../components/Compressor";
 import RemoverModern from "../components/Remover";
 import PdfTools from "../components/pdf/PdfTools";
 import FooterCta from "../components/FooterCta";
+import AiMediaTools from "../components/ai-media/AiMediaTools";
 
 const Tools = () => {
   return (
@@ -35,6 +36,7 @@ const Tools = () => {
       <CompressorModern />
       <RemoverModern />
       <PdfTools />
+      <AiMediaTools />
       <FooterCta />
     </div>
   );

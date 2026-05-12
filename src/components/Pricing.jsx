@@ -3,7 +3,7 @@ import React from "react";
 const Pricing = () => {
   return (
     <div>
-      <section className="fm-st-pricing">
+      <section id="pricing" className="fm-st-pricing">
         <div className="fm-st-pricing-container">
           {/* HEADER */}
           <div className="fm-st-pricing-header">

@@ -43,7 +43,7 @@ const FEATURES = [
 
 export default function FeaturesBenefits() {
   return (
-    <section className="fm-st-features">
+    <section id="features" className="fm-st-features">
       <div className="fm-st-features-container">
         {/* HEADER */}
         <motion.div

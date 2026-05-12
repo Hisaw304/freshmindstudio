@@ -6,9 +6,9 @@ const links = [
   { label: "Home", href: "/" },
   { label: "Tools", href: "/tools" },
   { label: "About", href: "/about" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Faq", href: "/#faq" },
+  { label: "Features", href: "/#features" },
+  { label: "Pricing", href: "/#pricing" },
 ];
 
 export default function Navbar() {

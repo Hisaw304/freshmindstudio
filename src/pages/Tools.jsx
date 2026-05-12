@@ -28,7 +28,7 @@ const Tools = () => {
             <p>
               Explore a growing collection of fast, modern, and beautifully
               designed utilities built to simplify creative work, optimize
-              files, and improve productivity online
+              files, and improve productivity online.
             </p>
           </div>
         </div>

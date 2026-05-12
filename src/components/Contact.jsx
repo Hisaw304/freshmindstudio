@@ -180,11 +180,9 @@ export default function Contact() {
 
                     <option>Website Design</option>
 
-                    <option>Full Stack Development</option>
+                    <option>Full Stack Web Development</option>
 
                     <option>SaaS Platform</option>
-
-                    <option>UI/UX Design</option>
 
                     <option>Creative Collaboration</option>
 
